@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Encarga y personaliza tu lienzo con tus fotos e imágenes favoritas enmarcadas.">
+  <title>Personaliza tu Lienzo | Encarga tu Experiencia</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Cabecera principal del sitio web -->
+  <header class="header">
+    <h1>Crea tu Lienzo Personalizado</h1>
+    <p>Convierte tus recuerdos y fotos favoritas en obras de arte para tu hogar.</p>
+  </header>
+
+  <!-- Contenido principal interactivo -->
+  <main class="main-container">
+
+    <!-- Sección 1: Previsualización en vivo del cuadro -->
+    <section class="preview-section" aria-labelledby="preview-heading">
+      <h2 id="preview-heading" class="sr-only">Previsualización del lienzo</h2>
+
+      <figure class="canvas-frame" id="canvasFrame">
+        <div class="canvas-placeholder" id="canvasPlaceholder">
+          <svg width="48" height="48" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+          </svg>
+          <p>Tu imagen aparecerá aquí</p>
+        </div>
+        <img id="imagePreview" src="" alt="Vista previa de la fotografía elegida enmarcada en el lienzo" style="display: none;">
+        <figcaption class="preview-note">* La vista previa es una simulación visual del marco del lienzo.</figcaption>
+      </figure>
+    </section>
+
+    <!-- Sección 2: Formulario de pedido / Solicitud -->
+    <section class="form-section" aria-labelledby="order-heading">
+      <h2 id="order-heading" class="sr-only">Formulario de configuración de pedido</h2>
+
+      <form id="orderForm">
+
+        <!-- Paso 1: Carga de archivo -->
+        <fieldset class="form-group">
+          <legend class="step-title">1. Sube tu fotografía</legend>
+          <label for="imageUpload" class="file-dropzone">
+            <span>Haz clic para seleccionar o arrastra una imagen</span>
+            <input type="file" id="imageUpload" name="imageUpload" accept="image/*" required>
+          </label>
+        </fieldset>
+
+        <!-- Paso 2: Selección del formato/tamaño -->
+        <fieldset class="form-group">
+          <legend class="step-title">2. Selecciona el tamaño del lienzo</legend>
+          <div class="size-options">
+            
+            <label class="size-card">
+              <input type="radio" name="size" value="30x40" data-price="85000" checked>
+              <span class="card-content">
+                <strong class="size-name">30 x 40 cm</strong>
+                <span class="size-price">$85.000 COP</span>
+              </span>
+            </label>
+
+            <label class="size-card">
+              <input type="radio" name="size" value="50x70" data-price="135000">
+              <span class="card-content">
+                <strong class="size-name">50 x 70 cm</strong>
+                <span class="size-price">$135.000 COP</span>
+              </span>
+            </label>
+
+            <label class="size-card">
+              <input type="radio" name="size" value="70x100" data-price="195000">
+              <span class="card-content">
+                <strong class="size-name">70 x 100 cm</strong>
+                <span class="size-price">$195.000 COP</span>
+              </span>
+            </label>
+
+          </div>
+        </fieldset>
+
+        <!-- Resumen del costo (Output semántico) -->
+        <div class="price-summary">
+          <label for="totalPrice">Total estimado:</label>
+          <output id="totalPrice" for="orderForm">$85.000 COP</output>
+        </div>
+
+        <!-- Paso 3: Datos de contacto y envío -->
+        <fieldset class="form-group">
+          <legend class="step-title">3. Tus datos de contacto y envío</legend>
+          
+          <div class="input-row">
+            <div>
+              <label for="fullName" class="sr-only">Nombre completo</label>
+              <input type="text" id="fullName" name="fullName" placeholder="Nombre completo" required autocomplete="name">
+            </div>
+            <div>
+              <label for="phone" class="sr-only">Teléfono / WhatsApp</label>
+              <input type="tel" id="phone" name="phone" placeholder="Teléfono / WhatsApp" required autocomplete="tel">
+            </div>
+          </div>
+
+          <div class="input-row">
+            <div>
+              <label for="email" class="sr-only">Correo electrónico</label>
+              <input type="email" id="email" name="email" placeholder="Correo electrónico" required autocomplete="email">
+            </div>
+            <div>
+              <label for="city" class="sr-only">Ciudad / Municipio</label>
+              <input type="text" id="city" name="city" placeholder="Ciudad / Municipio" required autocomplete="address-level2">
+            </div>
+          </div>
+
+          <div>
+            <label for="address" class="sr-only">Dirección completa</label>
+            <input type="text" id="address" name="address" placeholder="Dirección de residencia completa" required autocomplete="street-address">
+          </div>
+
+          <div>
+            <label for="notes" class="sr-only">Notas adicionales</label>
+            <textarea id="notes" name="notes" rows="3" placeholder="Notas adicionales (ej. ¿Deseas algún ajuste especial en la edición de la foto?)"></textarea>
+          </div>
+        </fieldset>
+
+        <button type="submit" class="submit-btn">Realizar Solicitud</button>
+
+      </form>
+    </section>
+
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
