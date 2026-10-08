@@ -1,0 +1,314 @@
+/* ==========================================================================
+   VARIABLES DE COLOR Y ESTILOS GLOBALES (:root)
+   ========================================================================== */
+:root {
+  /* Colores Llamativos sin llegar a Neón (Elegantes y Cálidos) */
+  --color-primario: #E05A47;       /* Terracota cálido y llamativo */
+  --color-primario-hover: #C84635; /* Terracota más oscuro para el hover */
+  --color-secundario: #2B4C5E;     /* Azul petróleo elegante */
+  --color-acento: #F2A950;         /* Amarillo mostaza cálido */
+
+  /* Fondos y Neutros */
+  --bg-pagina: #FAF7F2;            /* Blanco hueso muy suave */
+  --bg-tarjeta: #FFFFFF;
+  --bg-resumen: #EEF3F6;
+
+  /* Textos */
+  --texto-oscuro: #2D2D2D;
+  --texto-suave: #666666;
+
+  /* Bordes y Sombras */
+  --borde-color: #E2DDD5;
+  --sombra-tarjeta: 0 4px 15px rgba(0, 0, 0, 0.08);
+  --radio-borde: 10px;
+}
+
+/* Desplazamiento suave para el enlace interno (#) */
+html {
+  scroll-behavior: smooth;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+body {
+  background-color: var(--bg-pagina);
+  color: var(--texto-oscuro);
+  line-height: 1.6;
+}
+
+/* ==========================================================================
+   BARRA DE NAVEGACIÓN
+   ========================================================================== */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 8%;
+  background-color: var(--bg-tarjeta);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.logo h1 {
+  font-size: 1.5rem;
+  color: var(--color-secundario);
+}
+
+.btn-hero {
+  background-color: var(--color-primario);
+  color: white;
+  padding: 10px 20px;
+  border-radius: var(--radio-borde);
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.btn-hero:hover {
+  background-color: var(--color-primario-hover);
+}
+
+/* ==========================================================================
+   SECCIÓN HERO / BIENVENIDA
+   ========================================================================== */
+.hero-section {
+  padding: 50px 8%;
+  background-color: var(--bg-tarjeta);
+  border-bottom: 1px solid var(--borde-color);
+}
+
+.hero-content h2 {
+  font-size: 2.2rem;
+  color: var(--color-secundario);
+  margin-bottom: 10px;
+}
+
+.hero-content p {
+  font-size: 1.1rem;
+  color: var(--texto-suave);
+  margin-bottom: 30px;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  align-items: flex-start;
+}
+
+.btn-principal {
+  background-color: var(--color-primario);
+  color: white;
+  padding: 16px 32px;
+  border-radius: var(--radio-borde);
+  text-decoration: none;
+  font-size: 1.2rem;
+  font-weight: bold;
+  box-shadow: var(--sombra-tarjeta);
+  transition: transform 0.2s, background-color 0.3s;
+}
+
+.btn-principal:hover {
+  background-color: var(--color-primario-hover);
+  transform: translateY(-2px);
+}
+
+/* Tarjeta de Contacto Directo */
+.contacto-rapido {
+  background-color: var(--bg-pagina);
+  border: 1px solid var(--borde-color);
+  padding: 20px;
+  border-radius: var(--radio-borde);
+  min-width: 280px;
+}
+
+.contacto-rapido h3 {
+  color: var(--color-secundario);
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+  border-bottom: 2px solid var(--color-acento);
+  padding-bottom: 5px;
+}
+
+.contacto-rapido p {
+  font-size: 0.95rem;
+  margin-bottom: 5px;
+}
+
+/* ==========================================================================
+   GALERÍA DE MUESTRAS
+   ========================================================================== */
+.galeria-section {
+  padding: 60px 8%;
+  text-align: center;
+}
+
+.galeria-section h2 {
+  font-size: 2rem;
+  color: var(--color-secundario);
+}
+
+.subtitulo {
+  color: var(--texto-suave);
+  margin-bottom: 40px;
+}
+
+.galeria-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 25px;
+}
+
+.tarjeta-arte {
+  background: var(--bg-tarjeta);
+  border-radius: var(--radio-borde);
+  overflow: hidden;
+  box-shadow: var(--sombra-tarjeta);
+  border: 1px solid var(--borde-color);
+}
+
+.tarjeta-arte img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+}
+
+.tarjeta-arte h3 {
+  padding: 15px;
+  font-size: 1.1rem;
+  color: var(--texto-oscuro);
+}
+
+/* ==========================================================================
+   SECCIÓN FORMULARIO
+   ========================================================================== */
+.seccion-formulario {
+  padding: 60px 8%;
+  max-width: 750px;
+  margin: 0 auto;
+}
+
+.formulario {
+  background-color: var(--bg-tarjeta);
+  padding: 35px;
+  border-radius: var(--radio-borde);
+  box-shadow: var(--sombra-tarjeta);
+  border: 1px solid var(--borde-color);
+}
+
+.grupo-campo {
+  border: none;
+  margin-bottom: 25px;
+}
+
+.grupo-campo legend {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: var(--color-secundario);
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  font-weight: 600;
+  margin-top: 12px;
+  margin-bottom: 6px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="file"],
+select,
+textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--borde-color);
+  border-radius: 6px;
+  background-color: #FAFAFA;
+  font-size: 1rem;
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--color-secundario);
+  background-color: #FFFFFF;
+}
+
+/* Previsualización de imagen */
+.preview-contenedor {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.preview-contenedor img {
+  max-width: 200px;
+  max-height: 200px;
+  border-radius: 8px;
+  border: 3px solid var(--color-secundario);
+}
+
+/* Resumen de Precio */
+.resumen-precio {
+  background-color: var(--bg-resumen);
+  padding: 20px;
+  border-radius: var(--radio-borde);
+  margin-bottom: 25px;
+}
+
+.resumen-precio p {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.resumen-precio hr {
+  margin: 10px 0;
+  border: none;
+  border-top: 1px solid var(--borde-color);
+}
+
+.resumen-precio h3 {
+  display: flex;
+  justify-content: space-between;
+  color: var(--color-secundario);
+}
+
+.resumen-precio output {
+  color: var(--color-primario);
+  font-size: 1.4rem;
+}
+
+/* Botón de Agendar */
+.btn-agendar {
+  width: 100%;
+  padding: 16px;
+  background-color: var(--color-primario);
+  color: white;
+  border: none;
+  border-radius: var(--radio-borde);
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-agendar:hover {
+  background-color: var(--color-primario-hover);
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 20px;
+  background-color: var(--color-secundario);
+  color: white;
+  margin-top: 40px;
+}

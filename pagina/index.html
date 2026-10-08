@@ -3,133 +3,131 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Encarga y personaliza tu lienzo con tus fotos e imágenes favoritas enmarcadas.">
-  <title>Personaliza tu Lienzo | Encarga tu Experiencia</title>
+  <meta name="description" content="Lienzos personalizados e imágenes pintadas a mano.">
+  <title> Momentos eternos | Arte Personalizado</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-  <!-- Cabecera principal del sitio web -->
-  <header class="header">
-    <h1>Crea tu Lienzo Personalizado</h1>
-    <p>Convierte tus recuerdos y fotos favoritas en obras de arte para tu hogar.</p>
+  <!-- Encabezado -->
+  <header class="navbar">
+    <div class="logo">
+      <h1> Momentos eternos </h1>
+    </div>
+    <a href="#formulario-solicitud""EL_LOGIN_VA_A_SER_ESTE" class="btn-hero">Login</a>
   </header>
 
-  <!-- Contenido principal interactivo -->
-  <main class="main-container">
+  <!-- Sección Principal -->
+  <section class="hero-section">
+    <div class="hero-content">
+      <h2>Transforma tus lindos momentos en arte</h2>
+      <p>Convertimos tus fotos favoritas que transmiten sentimientos en impresionantes lienzos pintados y enmarcados.</p>
+      
+      <div class="hero-actions">
+        <!-- Botón con enlace interno hacia la sección del formulario -->
+        <a href="#formulario-solicitud" class="btn-principal">Agenda el tuyo</a>
 
-    <!-- Sección 1: Previsualización en vivo del cuadro -->
-    <section class="preview-section" aria-labelledby="preview-heading">
-      <h2 id="preview-heading" class="sr-only">Previsualización del lienzo</h2>
+        <!-- Datos de contacto directos -->
+        <aside class="contacto-rapido">
+          <h3>Contacto Directo</h3>
+          <p><strong>Atención:</strong> Nahiomy Cafroni Pacheco</p>
+          <p><strong>Correo:</strong> info@momentoseternos.com</p>
+          <p><strong>Teléfono / WhatsApp:</strong> +57 300 123 4567</p>
+          <p><strong>Instagram:</strong> @momentoseternos</p>
+        </aside>
+      </div>
+    </div>
+  </section>
 
-      <figure class="canvas-frame" id="canvasFrame">
-        <div class="canvas-placeholder" id="canvasPlaceholder">
-          <svg width="48" height="48" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-          </svg>
-          <p>Tu imagen aparecerá aquí</p>
+  <!-- Sección de Galería -->
+  <section class="galeria-section">
+    <h2>Muestras de Arte</h2>
+    <p class="subtitulo">Conoce algunos de los trabajos realizados para nuestros clientes</p>
+
+    <div class="galeria-grid">
+      <article class="tarjeta-arte">
+        <img src="./imagenes/still-life-painting-oil-painting-tropical-flowers-thumb900.jpg" alt="Muestra de cuadro de flores al óleo">
+        <h3>~ Lienzo Floral al Óleo ~</h3>
+      </article>
+
+      <article class="tarjeta-arte">
+        <img src="./imagenes/Retrato-de-una-pareja-en-la-playa-1.jpg" alt="Muestra de retrato minimalista">
+        <h3>~ Retrato de Pareja ~</h3>
+      </article>
+
+      <article class="tarjeta-arte">
+        <img src="./imagenes/venecia.jpg" alt="Muestra de arte de paisaje urbano">
+        <h3>~ Paisaje urbano ~</h3>
+      </article>
+    </div>
+  </section>
+
+  <main>
+    <!-- Sección de Formulario de Solicitud -->
+    <section id="formulario-solicitud" class="seccion-formulario">
+      <h2>Haz tu Solicitud</h2>
+      <p class="subtitulo">Diligencia tus datos para agendar tu lienzo personalizado</p>
+
+      <form id="orderForm" class="formulario">
+
+        <!-- Datos Personales -->
+        <fieldset class="grupo-campo">
+          <legend>1. Tus Datos Personales</legend>
+
+          <label for="nombre">Nombre y Apellido:</label>
+          <input type="text" id="nombre" name="nombre" placeholder="Ej: María Alejandra" required>
+
+          <label for="correo">Correo Electrónico:</label>
+          <input type="email" id="correo" name="correo" placeholder=" mariaalejandra@email.com" required>
+
+          <label for="telefono">Número de Contacto:</label>
+          <input type="tel" id="telefono" name="telefono" placeholder="Ej: +57 300 123 4567" required>
+
+          <label for="direccion">Dirección de Envío: </label>
+          <input type="text" id="direccion" name="direccion" placeholder="Calle, Carrera, Ciudad y Barrio" required>
+        </fieldset>
+
+        <!-- Personalización de la Pintura -->
+        <fieldset class="grupo-campo">
+          <legend>2. Detalles del Lienzo</legend>
+
+          <label for="foto">Sube tu Foto:</label>
+          <input type="file" id="foto" name="foto" accept="image/*" required>
+
+          <!-- Previsualización de la foto elegida --> 
+          <div class="preview-contenedor">
+            <img id="imgPreview" src="" alt="Vista previa de la imagen cargada" style="display: none;">
+          </div>
+
+          <label for="tamano">Selecciona el Tamaño Estándar:</label>
+          <select id="tamano" name="tamano" required>
+            <option value="35000" selected >  Mini (20 x 30 cm) - $35.000 COP</option>
+            <option value="50000"> Pequeño (30 x 40 cm) - $50.000 COP</option>
+            <option value="130000">Mediano (50 x 70 cm) - $130.000 COP</option>
+            <option value="180000">Grande (70 x 100 cm) - $180.000 COP</option>
+          </select>
+
+          <label for="descripcion">Descripción de la Pintura (Opcional):</label>
+          <textarea id="descripcion" name="descripcion" rows="4" placeholder="Escribe aquí si quieres agregar o cambiar algún detalle en la imagen (colores de fondo, estilo, texto, etc.)"></textarea>
+        </fieldset>
+
+        <!-- Resumen de Costos -->
+        <div class="resumen-precio">
+          <p>Precio del Lienzo: <span id="precioLienzo">35.000 COP</span></p>
+          <p>Envío Nacional: <span>$20.000 COP</span></p>
+          <hr>
+          <h3>Total a Pagar: <output id="precioTotal">$150.000 COP</output></h3>
         </div>
-        <img id="imagePreview" src="" alt="Vista previa de la fotografía elegida enmarcada en el lienzo" style="display: none;">
-        <figcaption class="preview-note">* La vista previa es una simulación visual del marco del lienzo.</figcaption>
-      </figure>
-    </section>
 
-    <!-- Sección 2: Formulario de pedido / Solicitud -->
-    <section class="form-section" aria-labelledby="order-heading">
-      <h2 id="order-heading" class="sr-only">Formulario de configuración de pedido</h2>
-
-      <form id="orderForm">
-
-        <!-- Paso 1: Carga de archivo -->
-        <fieldset class="form-group">
-          <legend class="step-title">1. Sube tu fotografía</legend>
-          <label for="imageUpload" class="file-dropzone">
-            <span>Haz clic para seleccionar o arrastra una imagen</span>
-            <input type="file" id="imageUpload" name="imageUpload" accept="image/*" required>
-          </label>
-        </fieldset>
-
-        <!-- Paso 2: Selección del formato/tamaño -->
-        <fieldset class="form-group">
-          <legend class="step-title">2. Selecciona el tamaño del lienzo</legend>
-          <div class="size-options">
-            
-            <label class="size-card">
-              <input type="radio" name="size" value="30x40" data-price="85000" checked>
-              <span class="card-content">
-                <strong class="size-name">30 x 40 cm</strong>
-                <span class="size-price">$85.000 COP</span>
-              </span>
-            </label>
-
-            <label class="size-card">
-              <input type="radio" name="size" value="50x70" data-price="135000">
-              <span class="card-content">
-                <strong class="size-name">50 x 70 cm</strong>
-                <span class="size-price">$135.000 COP</span>
-              </span>
-            </label>
-
-            <label class="size-card">
-              <input type="radio" name="size" value="70x100" data-price="195000">
-              <span class="card-content">
-                <strong class="size-name">70 x 100 cm</strong>
-                <span class="size-price">$195.000 COP</span>
-              </span>
-            </label>
-
-          </div>
-        </fieldset>
-
-        <!-- Resumen del costo (Output semántico) -->
-        <div class="price-summary">
-          <label for="totalPrice">Total estimado:</label>
-          <output id="totalPrice" for="orderForm">$85.000 COP</output>
-        </div>
-
-        <!-- Paso 3: Datos de contacto y envío -->
-        <fieldset class="form-group">
-          <legend class="step-title">3. Tus datos de contacto y envío</legend>
-          
-          <div class="input-row">
-            <div>
-              <label for="fullName" class="sr-only">Nombre completo</label>
-              <input type="text" id="fullName" name="fullName" placeholder="Nombre completo" required autocomplete="name">
-            </div>
-            <div>
-              <label for="phone" class="sr-only">Teléfono / WhatsApp</label>
-              <input type="tel" id="phone" name="phone" placeholder="Teléfono / WhatsApp" required autocomplete="tel">
-            </div>
-          </div>
-
-          <div class="input-row">
-            <div>
-              <label for="email" class="sr-only">Correo electrónico</label>
-              <input type="email" id="email" name="email" placeholder="Correo electrónico" required autocomplete="email">
-            </div>
-            <div>
-              <label for="city" class="sr-only">Ciudad / Municipio</label>
-              <input type="text" id="city" name="city" placeholder="Ciudad / Municipio" required autocomplete="address-level2">
-            </div>
-          </div>
-
-          <div>
-            <label for="address" class="sr-only">Dirección completa</label>
-            <input type="text" id="address" name="address" placeholder="Dirección de residencia completa" required autocomplete="street-address">
-          </div>
-
-          <div>
-            <label for="notes" class="sr-only">Notas adicionales</label>
-            <textarea id="notes" name="notes" rows="3" placeholder="Notas adicionales (ej. ¿Deseas algún ajuste especial en la edición de la foto?)"></textarea>
-          </div>
-        </fieldset>
-
-        <button type="submit" class="submit-btn">Realizar Solicitud</button>
-
+        <!-- Botón de Agendar -->
+        <button type="submit" class="btn-agendar">Agendar Pedido</button>
       </form>
     </section>
-
   </main>
+
+  <footer class="footer">
+    <p>&copy; 2026 Momentos eternos. Todos los derechos reservados.</p>
+  </footer>
 
   <script src="app.js"></script>
 </body>
