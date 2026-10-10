@@ -1,29 +1,27 @@
-/* ==========================================================================
-   VARIABLES DE COLOR Y ESTILOS GLOBALES (:root)
-   ========================================================================== */
+/* Paleta de colores */
 :root {
-  /* Colores Llamativos sin llegar a Neón (Elegantes y Cálidos) */
-  --color-primario: #E05A47;       /* Terracota cálido y llamativo */
-  --color-primario-hover: #C84635; /* Terracota más oscuro para el hover */
-  --color-secundario: #2B4C5E;     /* Azul petróleo elegante */
-  --color-acento: #F2A950;         /* Amarillo mostaza cálido */
+  --color-primario: #b1655b;       
+  --color-primario-hover: #290e0b;
+  --color-secundario: #55391e;     
+  --color-acento: #a11e1e;         
 
   /* Fondos y Neutros */
-  --bg-pagina: #FAF7F2;            /* Blanco hueso muy suave */
-  --bg-tarjeta: #FFFFFF;
-  --bg-resumen: #EEF3F6;
+  --bg-pagina: #FAF7F2;           
+  --bg-tarjeta: #c5baa3;
+  --bg-bienvenida: #e9e7dc;
+  --bg-resumen: #ffffff;
 
   /* Textos */
-  --texto-oscuro: #2D2D2D;
-  --texto-suave: #666666;
+  --texto-oscuro: #000000;
+  --texto-suave: #474747;
 
   /* Bordes y Sombras */
-  --borde-color: #E2DDD5;
+  --borde-color: #2b2a29;
   --sombra-tarjeta: 0 4px 15px rgba(0, 0, 0, 0.08);
   --radio-borde: 10px;
 }
 
-/* Desplazamiento suave para el enlace interno (#) */
+/* Desplazamiento suave para el formulario */
 html {
   scroll-behavior: smooth;
 }
@@ -41,16 +39,14 @@ body {
   line-height: 1.6;
 }
 
-/* ==========================================================================
-   BARRA DE NAVEGACIÓN
-   ========================================================================== */
+/* Nav bar */
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 18px 8%;
   background-color: var(--bg-tarjeta);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 10px #caa9a9a8;
   position: sticky;
   top: 0;
   z-index: 100;
@@ -58,12 +54,12 @@ body {
 
 .logo h1 {
   font-size: 1.5rem;
-  color: var(--color-secundario);
+  color: var(--color-primario-hover);
 }
 
 .btn-hero {
   background-color: var(--color-primario);
-  color: white;
+  color: rgb(255, 255, 255);
   padding: 10px 20px;
   border-radius: var(--radio-borde);
   text-decoration: none;
@@ -75,18 +71,16 @@ body {
   background-color: var(--color-primario-hover);
 }
 
-/* ==========================================================================
-   SECCIÓN HERO / BIENVENIDA
-   ========================================================================== */
+/* Bienvenida */
 .hero-section {
   padding: 50px 8%;
-  background-color: var(--bg-tarjeta);
+  background-color: var(--bg-bienvenida);
   border-bottom: 1px solid var(--borde-color);
 }
 
 .hero-content h2 {
   font-size: 2.2rem;
-  color: var(--color-secundario);
+  color: var(--color-primario-hover);
   margin-bottom: 10px;
 }
 
@@ -105,7 +99,7 @@ body {
 
 .btn-principal {
   background-color: var(--color-primario);
-  color: white;
+  color: #ffffff;
   padding: 16px 32px;
   border-radius: var(--radio-borde);
   text-decoration: none;
@@ -130,7 +124,7 @@ body {
 }
 
 .contacto-rapido h3 {
-  color: var(--color-secundario);
+  color: var(--color-primario-hover);
   font-size: 1.1rem;
   margin-bottom: 10px;
   border-bottom: 2px solid var(--color-acento);
@@ -142,9 +136,7 @@ body {
   margin-bottom: 5px;
 }
 
-/* ==========================================================================
-   GALERÍA DE MUESTRAS
-   ========================================================================== */
+/* Galeria */
 .galeria-section {
   padding: 60px 8%;
   text-align: center;
@@ -152,7 +144,7 @@ body {
 
 .galeria-section h2 {
   font-size: 2rem;
-  color: var(--color-secundario);
+  color: var(--color-primario-hover);
 }
 
 .subtitulo {
@@ -186,9 +178,7 @@ body {
   color: var(--texto-oscuro);
 }
 
-/* ==========================================================================
-   SECCIÓN FORMULARIO
-   ========================================================================== */
+/* Formulario */
 .seccion-formulario {
   padding: 60px 8%;
   max-width: 750px;
@@ -211,7 +201,7 @@ body {
 .grupo-campo legend {
   font-size: 1.2rem;
   font-weight: bold;
-  color: var(--color-secundario);
+  color: var(--color-primario-hover);
   margin-bottom: 15px;
 }
 
@@ -278,7 +268,7 @@ input:focus, select:focus, textarea:focus {
 .resumen-precio h3 {
   display: flex;
   justify-content: space-between;
-  color: var(--color-secundario);
+  color: var(--color-primario-hover);
 }
 
 .resumen-precio output {
