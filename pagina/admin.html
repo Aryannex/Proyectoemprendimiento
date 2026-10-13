@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel de Administración - Momentos Eternos</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Encabezado -->
+  <header class="navbar">
+    <div class="logo">
+      <h1>Panel de Administración</h1>
+    </div>
+    <nav>
+      <a href="index.html" class="btn-hero" style="background: var(--color-secundario);">Cerrar Sesión</a>
+    </nav>
+  </header>
+
+  <!-- Contenido Principal -->
+  <main class="seccion-formulario" style="max-width: 900px;">
+    <section>
+      <h2>Gestión de Solicitudes</h2>
+      <p class="subtitulo">Administra los pedidos de cuadros personalizados y actualiza sus estados.</p>
+
+      <!-- Contenedor dinámico de la lista de pedidos -->
+      <section id="listaPedidos" class="formulario" style="background: var(--bg-resumen);">
+        <!-- Cargo de pedidos aquí desde JavaScript -->
+      </section>
+    </section>
+  </main>
+
+  <!-- Pie de página -->
+  <footer class="footer">
+    <p>&copy; 2026 Momentos eternos. Todos los derechos reservados.</p>
+  </footer>
+
+  <script src="admin.js"></script>
+</body>
+</html>
