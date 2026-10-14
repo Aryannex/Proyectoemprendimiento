@@ -71,6 +71,59 @@ body {
   background-color: var(--color-primario-hover);
 }
 
+/* Estilos para el modal semántico */
+.modal-login {
+  border: 1px solid var(--borde-color);
+  border-radius: var(--radio-borde);
+  padding: 0;
+  background: white;
+  max-width: 320px;
+  width: 100%;
+  box-shadow: var(--sombra-tarjeta);
+}
+
+/* Ocultar el modal por defecto cuando no esté abierto */
+.modal-login:not([open]) {
+  display: none;
+}
+
+.formulario-modal {
+  padding: 25px;
+  text-align: center;
+}
+
+.subtitulo-modal {
+  font-size: 0.9rem;
+  color: var(--texto-suave);
+  margin-bottom: 15px;
+}
+
+.label-oculto {
+  position: absolute;
+  clip: rect(0 0 0 0);
+  pointer-events: none;
+}
+
+.acciones-modal {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.btn-cancelar {
+  background: none;
+  border: none;
+  color: var(--color-acento);
+  font-weight: bold;
+  cursor: pointer;
+  padding: 8px;
+}
+
+.btn-cancelar:hover {
+  text-decoration: underline;
+}
+
 /* Bienvenida */
 .hero-section {
   padding: 50px 8%;
