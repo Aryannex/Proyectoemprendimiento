@@ -16,6 +16,26 @@
     </div>
     <a href="#" id="btnLogin" class="btn-hero">Login</a>
   </header>
+  
+  <!-- Modal de Login Simple (Semántico) -->
+<dialog id="modalLogin" class="modal-login">
+  <form method="dialog" class="formulario-modal">
+    <header>
+      <h3>Iniciar Sesión</h3>
+    </header>
+    
+    <section>
+      <p class="subtitulo-modal">Usa "admin" o "cliente"</p>
+      <label for="userInput" class="label-oculto">Usuario:</label>
+      <input type="text" id="userInput" placeholder="Usuario (admin / cliente)" required>
+    </section>
+
+    <footer class="acciones-modal">
+      <button type="button" id="btnEntrar" class="btn-hero">Entrar</button>
+      <button type="button" id="btnCerrarModal" class="btn-cancelar">Cancelar</button>
+    </footer>
+  </form>
+</dialog>
 
   <!-- Sección Principal -->
   <section class="hero-section">
