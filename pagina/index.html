@@ -17,19 +17,21 @@
     <a href="#" id="btnLogin" class="btn-hero">Login</a>
   </header>
   
-  <!-- Modal de Login Simple (Semántico) -->
+  <!-- Modal de Login -->
 <dialog id="modalLogin" class="modal-login">
   <form method="dialog" class="formulario-modal">
     <header>
-      <h3>Iniciar Sesión</h3>
+      <h3>Iniciar Sesión / Consultar Pedido</h3>
     </header>
-    
     <section>
-      <p class="subtitulo-modal">Usa "admin" o "cliente"</p>
-      <label for="userInput" class="label-oculto">Usuario:</label>
-      <input type="text" id="userInput" placeholder="Usuario (admin / cliente)" required>
-    </section>
+      <p class="subtitulo-modal">Cliente: Ingresa tu Nombre y Correo. <br>Admin: Escribe "admin" y tu contraseña.</p>
+      
+      <label for="inputUsuario">Nombre o Usuario:</label>
+      <input type="text" id="inputUsuario" placeholder="Ej: María Alejandra o admin" required>
 
+      <label for="inputClaveCorreo">Correo o Contraseña:</label>
+      <input type="text" id="inputClaveCorreo" placeholder="Tu correo o contraseña de admin" required>
+    </section>
     <footer class="acciones-modal">
       <button type="button" id="btnEntrar" class="btn-hero">Entrar</button>
       <button type="button" id="btnCerrarModal" class="btn-cancelar">Cancelar</button>

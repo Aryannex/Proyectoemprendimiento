@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-  // Elementos DOM existentes
+  // DOM - Formulario y Tienda - 
   const selectTamano = document.getElementById('tamano');
   const precioLienzoElemento = document.getElementById('precioLienzo');
   const precioTotalElemento = document.getElementById('precioTotal');
@@ -8,17 +8,18 @@ document.addEventListener('DOMContentLoaded', () => {
   const imgPreview = document.getElementById('imgPreview');
   const orderForm = document.getElementById('orderForm');
 
-  // El modal de Login
+  // DOM - Modal de Login - 
   const btnLogin = document.getElementById('btnLogin');
   const modalLogin = document.getElementById('modalLogin');
   const btnCerrarModal = document.getElementById('btnCerrarModal');
   const btnEntrar = document.getElementById('btnEntrar');
-  const userInput = document.getElementById('userInput');
+  const inputUsuario = document.getElementById('inputUsuario');
+  const inputClaveCorreo = document.getElementById('inputClaveCorreo');
 
-  // Constante fija del precio de envío
+  // precio de envío
   const PRECIO_ENVIO = 20000;
 
-  // Función para formatear a pesos colombianos (COP)
+  // formatear a pesos colombianos (COP)
   function formatearMoneda(valor) {
     return new Intl.NumberFormat('es-CO', {
       style: 'currency',
@@ -41,22 +42,25 @@ document.addEventListener('DOMContentLoaded', () => {
     selectTamano.addEventListener('change', calcularTotal);
   }
 
-  // Previsualizar la foto cargada por el usuario
+  // Previsualizacion la foto cargada por el usuario
   if (inputFoto) {
     inputFoto.addEventListener('change', (evento) => {
       const archivo = evento.target.files[0];
+
       if (archivo) {
         const lector = new FileReader();
+
         lector.onload = function(e) {
           imgPreview.src = e.target.result;
           imgPreview.style.display = 'inline-block';
         };
+
         lector.readAsDataURL(archivo);
       }
     });
   }
 
-  // Manejo del envío del formulario 
+  // Manejo del envío del formulario (Guarda en localStorage) CAMBIAR A BASE DE DATOS MONGODB
   if (orderForm) {
     orderForm.addEventListener('submit', (evento) => {
       evento.preventDefault();
@@ -67,6 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const direccion = document.getElementById('direccion').value;
       const total = precioTotalElemento.textContent;
 
+      // creacion de un objeto 
       const nuevoPedido = {
         id: Date.now(),
         nombre,
@@ -74,9 +79,10 @@ document.addEventListener('DOMContentLoaded', () => {
         telefono,
         direccion,
         total,
-        estado: 'En espera'
+        estado: 'En espera' // Estado inicial 
       };
 
+      // Obtener pedidos anteriores o inicializar array vacío
       let pedidos = JSON.parse(localStorage.getItem('pedidosLienzos')) || [];
       pedidos.push(nuevoPedido);
       localStorage.setItem('pedidosLienzos', JSON.stringify(pedidos));
@@ -89,7 +95,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Apertura y acceso a login
+  // Logica de login para admin y clientes
+
   if (btnLogin) {
     btnLogin.addEventListener('click', (e) => {
       e.preventDefault();
@@ -109,16 +116,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (btnEntrar) {
     btnEntrar.addEventListener('click', () => {
-      const rol = userInput.value.trim().toLowerCase();
+      const usuarioIngresado = inputUsuario.value.trim();
+      const claveOcorreo = inputClaveCorreo.value.trim().toLowerCase();
 
-      if (rol === 'admin') {
-        alert('Bienvenido Administrador. Redirigiendo al panel...');
+      // Administrador (Usuario "admin" y contraseña fija "1234")
+      if (usuarioIngresado.toLowerCase() === 'admin' && claveOcorreo === 'Shadday1234') {
+        alert('Bienvenido Administrador. Redirigiendo al panel de control...');
         window.location.href = 'admin.html';
-      } else if (rol === 'cliente') {
-        alert('Bienvenido Cliente. Redirigiendo a tus pedidos...');
+        return;
+      }
+
+      // Cliente - nombre y correo exacto del pedido
+      let pedidos = JSON.parse(localStorage.getItem('pedidosLienzos')) || [];
+      
+      const clienteEncontrado = pedidos.find(p => 
+        p.correo.toLowerCase() === claveOcorreo && 
+        p.nombre.toLowerCase().includes(usuarioIngresado.toLowerCase())
+      );
+
+      if (clienteEncontrado) {
+        alert(`¡Bienvenido ${clienteEncontrado.nombre}! Redirigiendo a tus pedidos...`);
+        sessionStorage.setItem('correoClienteActual', clienteEncontrado.correo);
         window.location.href = 'cliente.html';
       } else {
-        alert('Usuario no válido. Escribe "admin" o "cliente".');
+        alert('Datos incorrectos. Para cliente ingresa tu nombre y correo exacto del pedido. Para admin usa la clave correcta.');
       }
     });
   }
