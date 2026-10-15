@@ -17,18 +17,20 @@
     <a href="#" id="btnLogin" class="btn-hero">Login</a>
   </header>
   
-  <!-- Modal de Login -->
+  <!-- Modal de Login Semántico -->
   <dialog id="modalLogin" class="modal-login">
     <form method="dialog" class="formulario-modal">
       <header>
         <h3>Iniciar Sesión</h3>
       </header>
       <section>
-        <label for="inputUsuario">Nombre o Usuario:</label>
-        <input type="text" id="inputUsuario" required>
+        <p class="subtitulo-modal">Cliente: Ingresa el correo de tu pedido.<br>Admin: Escribe "admin" y tu contraseña.</p>
+        
+        <label for="inputUsuario">Usuario / Correo:</label>
+        <input type="text" id="inputUsuario" placeholder="ej: admin o tu_correo@email.com" required>
 
-        <label for="inputClaveCorreo">Correo:</label>
-        <input type="text" id="inputClaveCorreo" required>
+        <label for="inputClaveCorreo">Contraseña (Solo para Admin):</label>
+        <input type="password" id="inputClaveCorreo" placeholder="Déjalo en blanco si eres cliente">
       </section>
       <footer class="acciones-modal">
         <button type="button" id="btnEntrar" class="btn-hero">Entrar</button>

@@ -114,35 +114,31 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  if (btnEntrar) {
+ if (btnEntrar) {
     btnEntrar.addEventListener('click', () => {
-      const usuarioIngresado = inputUsuario.value.trim();
-      const claveOcorreo = inputClaveCorreo.value.trim();
-      const correoIngresado = claveOcorreo.toLowerCase();
+      const inputVal = inputUsuario.value.trim().toLowerCase();
+      const claveVal = inputClaveCorreo.value.trim();
 
-      // Administrador (usuario "admin" y contraseña fija "Shadday1234")
-      if (usuarioIngresado.toLowerCase() === 'admin' && claveOcorreo === 'Shadday1234') {
+      // Caso 1: Administrador (Usuario "admin" y contraseña fija "1234")
+      if (inputVal === 'admin' && claveVal === '1234') {
         alert('Bienvenido Administrador. Redirigiendo al panel de control...');
         window.location.href = 'admin.html';
         return;
       }
 
-      // Cliente - nombre y correo exacto del pedido
+      // Caso 2: Cliente (Buscando directamente por correo electrónico)
       let pedidos = JSON.parse(localStorage.getItem('pedidosLienzos')) || [];
       
-      const clienteEncontrado = pedidos.find(p => 
-        p.correo.toLowerCase() === correoIngresado && 
-        p.nombre.toLowerCase().includes(usuarioIngresado.toLowerCase())
-      );
+      // Buscamos si el texto ingresado coincide con el correo de algún pedido
+      const pedidosCliente = pedidos.filter(p => p.correo.toLowerCase() === inputVal);
 
-      if (clienteEncontrado) {
-        alert(`¡Bienvenido ${clienteEncontrado.nombre}! Redirigiendo a tus pedidos...`);
-        sessionStorage.setItem('correoClienteActual', clienteEncontrado.correo);
+      if (pedidosCliente.length > 0) {
+        alert(`¡Bienvenido! Encontramos tus pedidos asociados a ${inputVal}.`);
+        sessionStorage.setItem('correoClienteActual', inputVal);
         window.location.href = 'cliente.html';
       } else {
-        alert('Datos incorrectos. Por favor, ingresa tu nombre y correo exacto del pedido.');
+        alert('No encontramos ningún pedido registrado con ese correo. Asegúrate de haber realizado una solicitud primero.');
       }
     });
   }
-
 });
