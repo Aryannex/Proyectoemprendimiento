@@ -139,7 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
         sessionStorage.setItem('correoClienteActual', clienteEncontrado.correo);
         window.location.href = 'cliente.html';
       } else {
-        alert('Datos incorrectos. Para cliente ingresa tu nombre y correo exacto del pedido. Para admin usa la clave correcta.');
+        alert('Datos incorrectos. Por favor, ingresa tu nombre y correo exacto del pedido.');
       }
     });
   }
