@@ -117,9 +117,10 @@ document.addEventListener('DOMContentLoaded', () => {
   if (btnEntrar) {
     btnEntrar.addEventListener('click', () => {
       const usuarioIngresado = inputUsuario.value.trim();
-      const claveOcorreo = inputClaveCorreo.value.trim().toLowerCase();
+      const claveOcorreo = inputClaveCorreo.value.trim();
+      const correoIngresado = claveOcorreo.toLowerCase();
 
-      // Administrador (Usuario "admin" y contraseña fija "1234")
+      // Administrador (usuario "admin" y contraseña fija "Shadday1234")
       if (usuarioIngresado.toLowerCase() === 'admin' && claveOcorreo === 'Shadday1234') {
         alert('Bienvenido Administrador. Redirigiendo al panel de control...');
         window.location.href = 'admin.html';
@@ -130,7 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
       let pedidos = JSON.parse(localStorage.getItem('pedidosLienzos')) || [];
       
       const clienteEncontrado = pedidos.find(p => 
-        p.correo.toLowerCase() === claveOcorreo && 
+        p.correo.toLowerCase() === correoIngresado && 
         p.nombre.toLowerCase().includes(usuarioIngresado.toLowerCase())
       );
 
