@@ -82,7 +82,7 @@ body {
   box-shadow: var(--sombra-tarjeta);
 }
 
-/* Cards de pedidos en el panel de administración */
+/* Cards de pedidos, panel de administración */
 .tarjeta-pedido {
   border: 1px solid var(--borde-color, #ddd);
   padding: 20px;
@@ -96,7 +96,49 @@ body {
   font-weight: bold;
 }
 
-/* Ocultar el modal por defecto cuando no esté abierto */
+/* Seguimiento del cliente */
+
+.contenedor-cliente {
+  max-width: 900px;
+}
+
+.btn-volver {
+  background-color: var(--color-secundario);
+}
+
+.btn-volver:hover {
+  background-color: var(--color-primario-hover);
+}
+
+.caja-pedidos {
+  background-color: var(--bg-resumen);
+}
+
+.tarjeta-pedido-cliente {
+  border: 1px solid var(--borde-color);
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: var(--radio-borde);
+  background: #FFF7F5;
+  box-shadow: var(--sombra-tarjeta);
+}
+
+.tarjeta-pedido-cliente h3 {
+  color: var(--color-primario-hover);
+  margin-bottom: 8px;
+}
+
+.tarjeta-pedido-cliente p {
+  margin-bottom: 6px;
+  color: var(--texto-suave);
+}
+
+.texto-estado-cliente {
+  color: var(--color-primario);
+  font-weight: bold;
+}
+
+/* Ocultar el modal cuando no esté abierto */
 .modal-login:not([open]) {
   display: none;
 }
@@ -137,6 +179,7 @@ body {
 .btn-cancelar:hover {
   text-decoration: underline;
 }
+
 
 /* Bienvenida */
 .hero-section {

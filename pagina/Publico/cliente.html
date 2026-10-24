@@ -14,19 +14,19 @@
       <h1>Mis Pedidos</h1>
     </div>
     <nav>
-      <a href="index.html" class="btn-hero" style="background: var(--color-secundario);">Volver al Inicio</a>
+      <a href="index.html" class="btn-hero btn-volver">Volver al Inicio</a>
     </nav>
   </header>
 
   <!-- Contenido Principal -->
-  <main class="seccion-formulario" style="max-width: 900px;">
+  <main class="seccion-formulario contenedor-cliente">
     <section>
       <h2>Seguimiento de Estado</h2>
       <p class="subtitulo">Aquí puedes consultar el progreso actual de tus lienzos personalizados.</p>
 
-      <!-- Contenedor dinámico de los pedidos del cliente -->
-      <section id="misPedidos" class="formulario" style="background: var(--bg-resumen);">
-        <!-- El seguimiento se cargarán aquí desde JavaScript -->
+      <!-- Pedidos del cliente -->
+      <section id="misPedidos" class="formulario caja-pedidos">
+        <p>Cargando tus pedidos...</p>
       </section>
     </section>
   </main>
@@ -35,6 +35,7 @@
   <footer class="footer">
     <p>&copy; 2026 Momentos eternos. Todos los derechos reservados.</p>
   </footer>
+  
   <script src="cliente.js"></script>
 </body>
 </html>
