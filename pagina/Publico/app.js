@@ -60,38 +60,40 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Manejo del envío del formulario (Guarda en localStorage) CAMBIAR A BASE DE DATOS MONGODB
+  // Enviar formulario y guardarlo en MongoDB vía API
   if (orderForm) {
-    orderForm.addEventListener('submit', (evento) => {
+    orderForm.addEventListener('submit', async (evento) => {
       evento.preventDefault();
 
-      const nombre = document.getElementById('nombre').value;
-      const correo = document.getElementById('correo').value;
-      const telefono = document.getElementById('telefono').value;
-      const direccion = document.getElementById('direccion').value;
-      const total = precioTotalElemento.textContent;
-
-      // creacion de un objeto 
       const nuevoPedido = {
-        id: Date.now(),
-        nombre,
-        correo,
-        telefono,
-        direccion,
-        total,
-        estado: 'En espera' // Estado inicial 
+        nombre: document.getElementById('nombre').value,
+        correo: document.getElementById('correo').value,
+        telefono: document.getElementById('telefono').value,
+        direccion: document.getElementById('direccion').value,
+        total: precioTotalElemento.textContent
       };
 
-      // Obtener pedidos anteriores o inicializar array vacío
-      let pedidos = JSON.parse(localStorage.getItem('pedidosLienzos')) || [];
-      pedidos.push(nuevoPedido);
-      localStorage.setItem('pedidosLienzos', JSON.stringify(pedidos));
+      try {
+        const respuesta = await fetch('/api/pedidos', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(nuevoPedido)
+        });
 
-      alert(`¡Gracias ${nombre}! Tu solicitud ha sido agendada con éxito.\nTotal a pagar (con envío): ${total}.\nNos pondremos en contacto contigo pronto.`);
+        const resultado = await respuesta.json();
 
-      orderForm.reset();
-      if (imgPreview) imgPreview.style.display = 'none';
-      calcularTotal();
+        if (resultado.success) {
+          alert(`¡Gracias ${nuevoPedido.nombre}! Tu solicitud ha sido agendada con éxito en el sistema.`);
+          orderForm.reset();
+          if (imgPreview) imgPreview.style.display = 'none';
+          calcularTotal();
+        } else {
+          alert('Hubo un error al registrar el pedido.');
+        }
+      } catch (error) {
+        console.error('Error de red:', error);
+        alert('No se pudo conectar con el servidor.');
+      }
     });
   }
 
@@ -100,44 +102,44 @@ document.addEventListener('DOMContentLoaded', () => {
   if (btnLogin) {
     btnLogin.addEventListener('click', (e) => {
       e.preventDefault();
-      if (modalLogin) {
-        modalLogin.showModal();
-      }
+      if (modalLogin) modalLogin.showModal();
     });
   }
 
-  if (btnCerrarModal) {
+ if (btnCerrarModal) {
     btnCerrarModal.addEventListener('click', () => {
-      if (modalLogin) {
-        modalLogin.close();
-      }
+      if (modalLogin) modalLogin.close();
     });
   }
 
- if (btnEntrar) {
-    btnEntrar.addEventListener('click', () => {
+
+ // Validacion de roles al Iniciar Sesión
+  if (btnEntrar) {
+    btnEntrar.addEventListener('click', async () => {
       const inputVal = inputUsuario.value.trim().toLowerCase();
       const claveVal = inputClaveCorreo.value.trim();
 
-      // Caso 1: Administrador (Usuario "admin" y contraseña fija "1234")
-      if (inputVal === 'admin' && claveVal === '1234') {
-        alert('Bienvenido Administrador. Redirigiendo al panel de control...');
+      // Rol Administrador
+      if (inputVal === 'admin' && claveVal === '954') {
+        alert('Bienvenido Administrador.');
         window.location.href = 'admin.html';
         return;
       }
 
-      // Caso 2: Cliente (Buscando directamente por correo electrónico)
-      let pedidos = JSON.parse(localStorage.getItem('pedidosLienzos')) || [];
-      
-      // Buscamos si el texto ingresado coincide con el correo de algún pedido
-      const pedidosCliente = pedidos.filter(p => p.correo.toLowerCase() === inputVal);
+      // Rol Cliente, se verifica en la database si existe el correo o no
+      try {
+        const respuesta = await fetch(`/api/pedidos/cliente/${inputVal}`);
+        const pedidosCliente = await respuesta.json();
 
-      if (pedidosCliente.length > 0) {
-        alert(`¡Bienvenido! Encontramos tus pedidos asociados a ${inputVal}.`);
-        sessionStorage.setItem('correoClienteActual', inputVal);
-        window.location.href = 'cliente.html';
-      } else {
-        alert('No encontramos ningún pedido registrado con ese correo. Asegúrate de haber realizado una solicitud primero.');
+        if (pedidosCliente.length > 0) {
+          alert(`¡Bienvenido! Encontramos tus pedidos.`);
+          sessionStorage.setItem('correoClienteActual', inputVal);
+          window.location.href = 'cliente.html';
+        } else {
+          alert('No encontramos pedidos registrados con este correo.');
+        }
+      } catch (error) {
+        console.error('Error al verificar cliente:', error);
       }
     });
   }
