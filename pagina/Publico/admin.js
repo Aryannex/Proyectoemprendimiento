@@ -1,27 +1,32 @@
-const contenedor = document.getElementById('listaPedidos');
-    let pedidos = JSON.parse(localStorage.getItem('pedidosLienzos')) || [];
+document.addEventListener('DOMContentLoaded', () => {
+  const contenedor = document.getElementById('listaPedidos');
 
-    function renderAdmin() {
+  async function cargarPedidosAdmin() {
+    try {
+      const respuesta = await fetch('/api/pedidos');
+      const pedidos = await respuesta.json();
+
       if (pedidos.length === 0) {
         contenedor.innerHTML = '<p>No hay solicitudes registradas todavía.</p>';
         return;
       }
 
       contenedor.innerHTML = '';
-      pedidos.forEach((pedido, index) => {
+      pedidos.forEach((pedido) => {
         const articulo = document.createElement('article');
-        articulo.style.cssText = "border: 1px solid var(--borde-color); padding: 20px; margin-bottom: 20px; border-radius: 8px; background: #fafafa;";
+        articulo.classList.add('tarjeta-pedido'); 
+        
         articulo.innerHTML = `
           <h3>Pedido de: ${pedido.nombre}</h3>
           <p><strong>Correo:</strong> ${pedido.correo}</p>
           <p><strong>Teléfono:</strong> ${pedido.telefono}</p>
-          <p><strong>Dirección de envío:</strong> ${pedido.direccion}</p>
-          <p><strong>Total a pagar:</strong> ${pedido.total}</p>
-          <p><strong>Estado Actual:</strong> <span style="color: var(--color-acento); font-weight: bold;">${pedido.estado}</span></p>
+          <p><strong>Dirección:</strong> ${pedido.direccion}</p>
+          <p><strong>Total:</strong> ${pedido.total}</p>
+          <p><strong>Estado Actual:</strong> <span class="texto-estado">${pedido.estado}</span></p>
           
           <div style="margin-top: 15px;">
-            <label for="estado-${index}">Cambiar Estado: </label>
-            <select id="estado-${index}" onchange="cambiarEstado(${index}, this.value)">
+            <label>Cambiar Estado: </label>
+            <select class="select-estado" data-id="${pedido._id}">
               <option value="En espera" ${pedido.estado === 'En espera' ? 'selected' : ''}>En espera</option>
               <option value="En proceso" ${pedido.estado === 'En proceso' ? 'selected' : ''}>En proceso</option>
               <option value="Entregado" ${pedido.estado === 'Entregado' ? 'selected' : ''}>Entregado</option>
@@ -30,13 +35,28 @@ const contenedor = document.getElementById('listaPedidos');
         `;
         contenedor.appendChild(articulo);
       });
-    }
 
-    window.cambiarEstado = function(index, nuevoEstado) {
-      pedidos[index].estado = nuevoEstado;
-      localStorage.setItem('pedidosLienzos', JSON.stringify(pedidos));
-      renderAdmin();
-      alert('Estado actualizado con éxito.');
-    }
+      // Actualizacion de estado en tiempo real en MongoDB
+      document.querySelectorAll('.select-estado').forEach(select => {
+        select.addEventListener('change', async (e) => {
+          const id = e.target.getAttribute('data-id');
+          const nuevoEstado = e.target.value;
 
-    renderAdmin();
+          await fetch(`/api/pedidos/${id}/estado`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ estado: nuevoEstado })
+          });
+
+          alert('Estado actualizado en la base de datos.');
+          cargarPedidosAdmin();
+        });
+      });
+
+    } catch (error) {
+      console.error('Error cargando panel admin:', error);
+    }
+  }
+
+  cargarPedidosAdmin();
+});

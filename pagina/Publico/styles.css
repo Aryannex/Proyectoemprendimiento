@@ -71,7 +71,7 @@ body {
   background-color: var(--color-primario-hover);
 }
 
-/* Estilos para el modal semántico */
+/* Modal de inicio de sesión */
 .modal-login {
   border: 1px solid var(--borde-color);
   border-radius: var(--radio-borde);
@@ -80,6 +80,20 @@ body {
   max-width: 320px;
   width: 100%;
   box-shadow: var(--sombra-tarjeta);
+}
+
+/* Cards de pedidos en el panel de administración */
+.tarjeta-pedido {
+  border: 1px solid var(--borde-color, #ddd);
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  background: #fafafa;
+}
+
+.texto-estado {
+  color: var(--color-acento, #d9534f);
+  font-weight: bold;
 }
 
 /* Ocultar el modal por defecto cuando no esté abierto */
