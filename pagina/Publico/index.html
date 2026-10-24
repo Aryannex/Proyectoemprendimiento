@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Lienzos personalizados e imágenes pintadas a mano.">
-  <title> Momentos eternos | Arte Personalizado</title>
+  <title>Momentos Eternos | Arte Personalizado</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -12,9 +12,9 @@
   <!-- Encabezado -->
   <header class="navbar">
     <div class="logo">
-      <h1> Momentos eternos </h1>
+      <h1>Momentos Eternos</h1>
     </div>
-    <a href="#" id="btnLogin" class="btn-hero">Login</a>
+    <a href="#" id="btnLogin" class="btn-hero">Iniciar Sesión</a>
   </header>
   
   <!-- Modal de Login -->
@@ -22,13 +22,14 @@
     <form method="dialog" class="formulario-modal">
       <header>
         <h3>Iniciar Sesión</h3>
+        <p class="subtitulo-modal">Ingresa con tu correo de cliente o como administrador</p>
       </header>
       <section>
-        <label for="inputUsuario">Usuario / Correo:</label>
-        <input type="text" id="inputUsuario" required>
+        <label for="inputUsuario">Usuario / Correo Electrónico:</label>
+        <input type="text" id="inputUsuario" placeholder="Ej: admin o tu@correo.com" required>
 
-        <label for="inputClaveCorreo">~-~-~</label>
-        <input type="password" id="inputClaveCorreo" placeholder="ignora este campo" able autocomplete="off" required>
+        <label for="inputClaveCorreo">Contraseña (Solo Admin):</label> <!-- CAMBIAR ESTO POR EL BOTON DE MOÑO -->
+        <input type="password" id="inputClaveCorreo" placeholder="Dejar en blanco si eres cliente" autocomplete="off">
       </section>
       <footer class="acciones-modal">
         <button type="button" id="btnEntrar" class="btn-hero">Entrar</button>
@@ -44,7 +45,7 @@
       <p>Convertimos tus fotos favoritas que transmiten sentimientos en impresionantes lienzos pintados y enmarcados.</p>
       
       <div class="hero-actions">
-        <!-- Botón hacia la sección del formulario -->
+        <!-- Botón que redirecciona al formulario -->
         <a href="#formulario-solicitud" class="btn-principal">Agenda el tuyo</a>
 
         <!-- Datos de contacto directos -->
@@ -83,7 +84,7 @@
   </section>
 
   <main>
-    <!-- Sección de Formulario de Solicitud -->
+    <!-- Formulario de Solicitud -->
     <section id="formulario-solicitud" class="seccion-formulario">
       <h2>Haz tu Solicitud</h2>
       <p class="subtitulo">Diligencia tus datos para agendar tu lienzo personalizado</p>
@@ -98,12 +99,12 @@
           <input type="text" id="nombre" name="nombre" placeholder="Ej: María Alejandra" required>
 
           <label for="correo">Correo Electrónico:</label>
-          <input type="email" id="correo" name="correo" placeholder=" mariaalejandra@email.com" required>
+          <input type="email" id="correo" name="correo" placeholder="mariaalejandra@email.com" required>
 
           <label for="telefono">Número de Contacto:</label>
           <input type="tel" id="telefono" name="telefono" placeholder="Ej: +57 300 123 4567" required>
 
-          <label for="direccion">Dirección de Envío: </label>
+          <label for="direccion">Dirección de Envío:</label>
           <input type="text" id="direccion" name="direccion" placeholder="Calle, Carrera, Ciudad y Barrio" required>
         </fieldset>
 
@@ -121,8 +122,8 @@
 
           <label for="tamano">Selecciona el Tamaño Estándar:</label>
           <select id="tamano" name="tamano" required>
-            <option value="35000" selected >  Mini (20 x 30 cm) - $35.000 COP</option>
-            <option value="50000"> Pequeño (30 x 40 cm) - $50.000 COP</option>
+            <option value="35000" selected>Mini (20 x 30 cm) - $35.000 COP</option>
+            <option value="50000">Pequeño (30 x 40 cm) - $50.000 COP</option>
             <option value="130000">Mediano (50 x 70 cm) - $130.000 COP</option>
             <option value="180000">Grande (70 x 100 cm) - $180.000 COP</option>
           </select>
@@ -133,10 +134,10 @@
 
         <!-- Resumen de Costos -->
         <div class="resumen-precio">
-          <p>Precio del Lienzo: <span id="precioLienzo">35.000 COP</span></p>
+          <p>Precio del Lienzo: <span id="precioLienzo">$35.000 COP</span></p>
           <p>Envío Nacional: <span>$20.000 COP</span></p>
           <hr>
-          <h3>Total a Pagar: <output id="precioTotal">$150.000 COP</output></h3>
+          <h3>Total a Pagar: <output id="precioTotal">$55.000 COP</output></h3>
         </div>
 
         <!-- Botón de Agendar -->
@@ -146,11 +147,9 @@
   </main>
 
   <footer class="footer">
-    <p>&copy; 2026 Momentos eternos. Todos los derechos reservados.</p>
+    <p>&copy; 2026 Momentos Eternos. Todos los derechos reservados.</p>
   </footer>
 
   <script src="app.js"></script>
-  <script src="admin.js"></script>
-  <script src="cliente.js"></script>
 </body>
 </html>
