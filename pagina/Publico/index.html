@@ -20,17 +20,27 @@
   <!-- Modal de Login -->
   <dialog id="modalLogin" class="modal-login">
     <form method="dialog" class="formulario-modal">
+
+      <button type="button" id="btnToggleAdmin" class="btn-mono" title="Modo Administrador">
+        🎀
+      </button>
+
       <header>
         <h3>Iniciar Sesión</h3>
-        <p class="subtitulo-modal">Ingresa con tu correo de cliente o como administrador</p>
+        <p class="subtitulo-modal">Ingresa con tu correo electrónico</p>
       </header>
+      
       <section>
         <label for="inputUsuario">Usuario / Correo Electrónico:</label>
-        <input type="text" id="inputUsuario" placeholder="Ej: admin o tu@correo.com" required>
+        <input type="text" id="inputUsuario" required>
 
-        <label for="inputClaveCorreo">Contraseña (Solo Admin):</label> <!-- CAMBIAR ESTO POR EL BOTON DE MOÑO -->
-        <input type="password" id="inputClaveCorreo" placeholder="Dejar en blanco si eres cliente" autocomplete="off">
+        <!-- Campo de contraseña oculto -->
+        <div id="seccionAdmin" class="admin-oculto">
+          <label for="inputClaveCorreo">Contraseña de Administrador:</label>
+          <input type="password" id="inputClaveCorreo" autocomplete="off">
+        </div>
       </section>
+
       <footer class="acciones-modal">
         <button type="button" id="btnEntrar" class="btn-hero">Entrar</button>
         <button type="button" id="btnCerrarModal" class="btn-cancelar">Cancelar</button>
