@@ -135,27 +135,34 @@ document.addEventListener('DOMContentLoaded', () => {
       const inputVal = inputUsuario.value.trim().toLowerCase();
       const claveVal = inputClaveCorreo.value.trim();
 
-      // Rol Administrador
+      // 1. Validación de Administrador (si la clave tiene contenido o el usuario es admin)
       if (inputVal === 'admin' && claveVal === '954') {
         alert('Bienvenido Administrador.');
         window.location.href = 'admin.html';
         return;
       }
 
-      // Rol Cliente, se verifica en la database si existe el correo o no
+      // Si intentó entrar como admin pero la contraseña es incorrecta
+      if (inputVal === 'admin' && claveVal !== '954') {
+        alert('Contraseña de administrador incorrecta.');
+        return;
+      }
+
+      // 2. Validación de Cliente (buscando el correo en la base de datos de MongoDB)
       try {
         const respuesta = await fetch(`/api/pedidos/cliente/${inputVal}`);
         const pedidosCliente = await respuesta.json();
 
-        if (pedidosCliente.length > 0) {
-          alert(`¡Bienvenido! Encontramos tus pedidos.`);
+        if (respuesta.ok && pedidosCliente.length > 0) {
+          alert('¡Bienvenido! Encontramos tus pedidos.');
           sessionStorage.setItem('correoClienteActual', inputVal);
           window.location.href = 'cliente.html';
         } else {
-          alert('No encontramos pedidos registrados con este correo.');
+          alert('No encontramos pedidos registrados con este correo o el usuario no existe.');
         }
       } catch (error) {
         console.error('Error al verificar cliente:', error);
+        alert('Error de conexión con el servidor al verificar el usuario.');
       }
     });
   }
