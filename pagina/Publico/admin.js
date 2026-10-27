@@ -24,7 +24,6 @@ document.addEventListener('DOMContentLoaded', () => {
           <p><strong>Correo:</strong> ${pedido.correo}</p>
           <p><strong>Estado Actual:</strong> <span class="texto-estado">${pedido.estado}</span></p>
           
-          <!-- Información detallada que se despliega con la flecha -->
           <div class="detalles-ocultos">
             <p><strong>Teléfono:</strong> ${pedido.telefono}</p>
             <p><strong>Dirección:</strong> ${pedido.direccion}</p>
