@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Pedido = require('./models/Pedido');
+const Pedido = require('../models/Pedido');
 
 // Nuevo pedido desde el formulario principal, cliente
 router.post('/', async (req, res) => {
@@ -16,7 +16,7 @@ router.post('/', async (req, res) => {
 // Obtener todos los pedidos, panel admin
 router.get('/', async (req, res) => {
   try {
-    const pedidos = await Pedido.find().sort({ fecha: -1 });
+    const pedidos = await Pedido.find().sort({ createdAt: -1 });;
     res.json(pedidos);
   } catch (error) {
     res.status(500).json({ success: false, message: 'Error al obtener los pedidos' });
