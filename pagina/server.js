@@ -15,6 +15,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
 // Conexión a MongoDB
+console.log("URI cargada:", process.env.MONGO_URI); // <-- Esto imprimirá tu enlace en la terminal para verificarlo
+
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('Conectado exitosamente a MongoDB Atlas'))
   .catch(error => console.error('Error al conectar a MongoDB:', error));
