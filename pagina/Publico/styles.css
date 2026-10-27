@@ -220,6 +220,42 @@ body {
   text-decoration: underline;
 }
 
+/* Tarjeta de pedido en el panel de administración */
+.cabecera-tarjeta-admin {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btn-desplegar {
+  background: none;
+  border: none;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  color: var(--color-primario-hover);
+  padding: 5px 8px;
+}
+
+/* Rotación para la flechita cuando se despliega */
+.btn-desplegar.girar {
+  transform: rotate(180deg);
+}
+
+/* Detalles ocultos por defecto */
+.detalles-ocultos {
+  display: none;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--borde-color);
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Visualización de los detalles */
+.detalles-ocultos.activo {
+  display: block;
+}
+
 
 /* Bienvenida */
 .hero-section {
