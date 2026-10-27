@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Pedido = require('../models/Pedido');
+const Pedido = require('./models/Pedido');
 
 // Nuevo pedido desde el formulario principal, cliente
 router.post('/', async (req, res) => {
