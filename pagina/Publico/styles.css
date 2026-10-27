@@ -82,6 +82,46 @@ body {
   box-shadow: var(--sombra-tarjeta);
 }
 
+.formulario-modal {
+  position: relative; /* Para ubicar el moño absoluto dentro del modal */
+}
+
+/* Botón moño rosado, esquina superior izquierda */
+.btn-mono {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, filter 0.2s ease;
+  padding: 4px;
+  z-index: 10;
+}
+
+.btn-mono:hover {
+  transform: scale(1.15) rotate(-5deg);
+  filter: drop-shadow(0 2px 4px rgba(177, 101, 91, 0.3));
+}
+
+/* Oculto del campo de contraseña */
+.admin-oculto {
+  display: none;
+  margin-top: 15px;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Mostrarlo cuando se presione el moño */
+.admin-oculto.activo {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 /* Cards de pedidos, panel de administración */
 .tarjeta-pedido {
   border: 1px solid var(--borde-color, #ddd);

@@ -112,6 +112,22 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Campo de contraseña con el moño interactivo
+  const btnToggleAdmin = document.getElementById('btnToggleAdmin');
+  const seccionAdmin = document.getElementById('seccionAdmin');
+
+  if (btnToggleAdmin && seccionAdmin) {
+    btnToggleAdmin.addEventListener('click', () => {
+      seccionAdmin.classList.toggle('activo');
+      
+      // Si se abre, automáticamente sale en el campo de contraseña
+      if (seccionAdmin.classList.contains('activo')) {
+        const inputClave = document.getElementById('inputClaveCorreo');
+        if (inputClave) inputClave.focus();
+      }
+    });
+  }
+
 
  // Validacion de roles al Iniciar Sesión
   if (btnEntrar) {
