@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
     selectTamano.addEventListener('change', calcularTotal);
   }
 
-  // Previsualizacion la foto cargada por el usuario
+  // Previsualizacion la foto cargada 
   if (inputFoto) {
     inputFoto.addEventListener('change', (evento) => {
       const archivo = evento.target.files[0];
@@ -135,20 +135,20 @@ document.addEventListener('DOMContentLoaded', () => {
       const inputVal = inputUsuario.value.trim().toLowerCase();
       const claveVal = inputClaveCorreo.value.trim();
 
-      // 1. Validación de Administrador (si la clave tiene contenido o el usuario es admin)
+      // Validación de Administrador
       if (inputVal === 'admin' && claveVal === '954') {
         alert('Bienvenido Administrador.');
         window.location.href = 'admin.html';
         return;
       }
 
-      // Si intentó entrar como admin pero la contraseña es incorrecta
+      
       if (inputVal === 'admin' && claveVal !== '954') {
         alert('Contraseña de administrador incorrecta.');
         return;
       }
 
-      // 2. Validación de Cliente (buscando el correo en la base de datos de MongoDB)
+      // Validación de Cliente 
       try {
         const respuesta = await fetch(`/api/pedidos/cliente/${inputVal}`);
         const pedidosCliente = await respuesta.json();

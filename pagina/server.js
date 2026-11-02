@@ -13,8 +13,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Servir archivos estáticos del frontend (HTML, CSS, JS)
-app.use(express.static('public'));
-
+   const path = require('path');
+   app.use(express.static(path.join(__dirname, 'public'))); 
+   
 // Rutas del API
 const pedidoRoutes = require('./routes/pedidoRoutes');
 app.use('/api/pedidos', pedidoRoutes);
