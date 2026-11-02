@@ -1,9 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
+
   function escapar(texto) {
   const d = document.createElement('div');
   d.textContent = texto;
   return d.innerHTML;
-  const contenedor = document.getElementById('listaPedidos');
 }
   async function cargarPedidosAdmin() {
     try {
