@@ -23,16 +23,16 @@ document.addEventListener('DOMContentLoaded', () => {
         
         articulo.innerHTML = `
           <div class="cabecera-tarjeta-admin">
-            <h3>Pedido de: ${pedido.nombre}</h3>
+            <h3>Pedido de: ${escapar(pedido.nombre)}</h3>
             <button type="button" class="btn-desplegar" aria-label="Ver detalles">▼</button>
           </div>
-          <p><strong>Correo:</strong> ${pedido.correo}</p>
-          <p><strong>Estado Actual:</strong> <span class="texto-estado">${pedido.estado}</span></p>
+          <p><strong>Correo:</strong> ${escapar(pedido.correo)}</p>
+          <p><strong>Estado Actual:</strong> <span class="texto-estado">${escapar(pedido.estado)}</span></p>
           
           <div class="detalles-ocultos">
-            <p><strong>Teléfono:</strong> ${pedido.telefono}</p>
-            <p><strong>Dirección:</strong> ${pedido.direccion}</p>
-            <p><strong>Total:</strong> ${pedido.total}</p>
+            <p><strong>Teléfono:</strong> ${escapar(pedido.telefono)}</p>
+            <p><strong>Dirección:</strong> ${escapar(pedido.direccion)}</p>
+            <p><strong>Total:</strong> ${escapar(pedido.total)}</p>
           </div>
 
           <div style="margin-top: 15px;">

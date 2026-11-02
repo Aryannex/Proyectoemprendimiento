@@ -24,11 +24,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         const articulo = document.createElement('article');
         articulo.classList.add('tarjeta-pedido-cliente');
         articulo.innerHTML = `
-          <h3>Destinatario: ${pedido.nombre}</h3>
-          <p><strong>Correo:</strong> ${pedido.correo}</p>
-          <p><strong>Dirección:</strong> ${pedido.direccion}</p>
-          <p><strong>Costo Total:</strong> ${pedido.total}</p>
-          <p><strong>Estado del Lienzo:</strong> <span class="texto-estado-cliente">${pedido.estado}</span></p>
+          <h3>Destinatario: ${escapar(pedido.nombre)}</h3>
+          <p><strong>Correo:</strong> ${escapar(pedido.correo)}</p>
+          <p><strong>Dirección:</strong> ${escapar(pedido.direccion)}</p>
+          <p><strong>Costo Total:</strong> ${escapar(pedido.total)}</p>
+          <p><strong>Estado del Lienzo:</strong> <span class="texto-estado-cliente">${escapar(pedido.estado)}</span></p>
         `;
         contenedorCliente.appendChild(articulo);
       });
