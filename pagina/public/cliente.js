@@ -2,6 +2,12 @@ document.addEventListener('DOMContentLoaded', async () => {
   const contenedorCliente = document.getElementById('misPedidos');
   const correoActual = sessionStorage.getItem('correoClienteActual');
 
+  function escapar(texto) {
+  const d = document.createElement('div');
+  d.textContent = texto;
+  return d.innerHTML;
+}
+
   if (!correoActual) {
     contenedorCliente.innerHTML = '<p>No has iniciado sesión con ningún correo.</p>';
     return;
