@@ -150,7 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Validación de Cliente 
       try {
-        const respuesta = await fetch(`/api/pedidos/cliente/${inputVal}`);
+        const respuesta = await fetch(`/api/pedidos/cliente/${encodeURIComponent(inputVal)}`);
         const pedidosCliente = await respuesta.json();
 
         if (respuesta.ok && pedidosCliente.length > 0) {
