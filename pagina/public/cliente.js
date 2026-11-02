@@ -1,11 +1,10 @@
 document.addEventListener('DOMContentLoaded', async () => {
-  const contenedorCliente = document.getElementById('misPedidos');
-  const correoActual = sessionStorage.getItem('correoClienteActual');
-
   function escapar(texto) {
   const d = document.createElement('div');
   d.textContent = texto;
   return d.innerHTML;
+  const contenedorCliente = document.getElementById('misPedidos');
+  const correoActual = sessionStorage.getItem('correoClienteActual');
 }
 
   if (!correoActual) {
@@ -14,7 +13,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   try {
-    const respuesta = await fetch(`/api/pedidos/cliente/${correoActual}`);
+    const respuesta = await fetch(`/api/pedidos/cliente/${encodeURIComponent(correoActual)}`);
     const misPedidos = await respuesta.json();
 
     if (misPedidos.length === 0) {

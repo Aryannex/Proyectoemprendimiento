@@ -1,9 +1,14 @@
 document.addEventListener('DOMContentLoaded', () => {
+  function escapar(texto) {
+  const d = document.createElement('div');
+  d.textContent = texto;
+  return d.innerHTML;
   const contenedor = document.getElementById('listaPedidos');
-
+}
   async function cargarPedidosAdmin() {
     try {
       const respuesta = await fetch('/api/pedidos');
+      if (!respuesta.ok) throw new Error('Error del servidor');
       const pedidos = await respuesta.json();
 
       if (pedidos.length === 0) {
