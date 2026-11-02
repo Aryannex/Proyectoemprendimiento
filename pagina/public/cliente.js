@@ -1,10 +1,11 @@
 document.addEventListener('DOMContentLoaded', async () => {
-  function escapar(texto) {
+  const contenedorCliente = document.getElementById('misPedidos');
+  const correoActual = sessionStorage.getItem('correoClienteActual');
+  
+   function escapar(texto) {
   const d = document.createElement('div');
   d.textContent = texto;
   return d.innerHTML;
-  const contenedorCliente = document.getElementById('misPedidos');
-  const correoActual = sessionStorage.getItem('correoClienteActual');
 }
 
   if (!correoActual) {
