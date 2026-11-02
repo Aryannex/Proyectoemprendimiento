@@ -12,12 +12,11 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Servir archivos estáticos del frontend (HTML, CSS, JS)
-   const path = require('path');
+// Servir archivos estáticos del frontend 
    app.use(express.static(path.join(__dirname, 'public'))); 
-   
+
 // Rutas del API
-const pedidoRoutes = require('./routes/pedidoRoutes');
+const pedidoRoutes = require('./routes/pedidoRoutes'); // revisar 
 app.use('/api/pedidos', pedidoRoutes);
 
 async function startServer() {
@@ -26,7 +25,7 @@ async function startServer() {
     throw new Error('No se encontró MONGODB_URI en el archivo .env');
   }
 
-  await mongoose.connect(mongoUri);
+  await mongoose.connect(mongoUri, { serverSelectionTimeoutMS: 10000 });
   console.log('Conectado exitosamente a MongoDB Atlas');
 
   app.listen(PORT, () => {

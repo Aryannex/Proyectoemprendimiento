@@ -2,50 +2,47 @@ const express = require('express');
 const router = express.Router();
 const Pedido = require('../models/Pedido');
 
-// Nuevo pedido desde el formulario principal, cliente
-router.post('/', async (req, res) => {
-  try {
-    const nuevoPedido = new Pedido(req.body);
-    await nuevoPedido.save();
-    res.status(201).json({ success: true, message: 'Pedido agendado correctamente', pedido: nuevoPedido });
-  } catch (error) {
-    res.status(500).json({ success: false, message: 'Error al agendar el pedido', error: error.message });
-  }
-});
-
-// Obtener todos los pedidos, panel admin
+// Ver todos, panel admin)
 router.get('/', async (req, res) => {
   try {
-    const pedidos = await Pedido.find().sort({ createdAt: -1 });;
-    res.json(pedidos);
-  } catch (error) {
-    res.status(500).json({ success: false, message: 'Error al obtener los pedidos' });
+    res.json(await Pedido.find().sort({ createdAt: -1 }));
+  } catch (e) {
+    res.status(500).json({ success: false, error: e.message });
   }
 });
 
-// Obtener pedidos filtrados por correo, panel cliente
+// Pedidos de un cliente
 router.get('/cliente/:correo', async (req, res) => {
   try {
-    const correo = req.params.correo.toLowerCase();
-    const pedidos = await Pedido.find({ correo: { $regex: new RegExp('^' + correo + '$', 'i') } });
-    res.json(pedidos);
-  } catch (error) {
-    res.status(500).json({ success: false, message: 'Error al buscar los pedidos del cliente' });
+    const correo = req.params.correo.trim().toLowerCase();
+    res.json(await Pedido.find({ correo }));
+  } catch (e) {
+    res.status(500).json({ success: false, error: e.message });
   }
 });
 
-// Cambiar el estado de un pedido, panel admin (En espera, En proceso, Entregado)
+// Crear pedido
+router.post('/', async (req, res) => {
+  try {
+    const pedido = await Pedido.create(req.body);
+    res.status(201).json({ success: true, pedido });
+  } catch (e) {
+    res.status(400).json({ success: false, error: e.message });
+  }
+});
+
+// Cambiar estado
 router.put('/:id/estado', async (req, res) => {
   try {
-    const { estado } = req.body;
-    const pedidoActualizado = await Pedido.findByIdAndUpdate(
-      req.params.id, 
-      { estado }, 
-      { new: true }
+    const pedido = await Pedido.findByIdAndUpdate(
+      req.params.id,
+      { estado: req.body.estado },
+      { new: true, runValidators: true }
     );
-    res.json({ success: true, message: 'Estado actualizado', pedido: pedidoActualizado });
-  } catch (error) {
-    res.status(500).json({ success: false, message: 'Error al actualizar el estado' });
+    if (!pedido) return res.status(404).json({ success: false });
+    res.json({ success: true, pedido });
+  } catch (e) {
+    res.status(400).json({ success: false, error: e.message });
   }
 });
 
