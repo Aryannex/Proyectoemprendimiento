@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+  const contenedor = document.getElementById('listaPedidos');
 
   function escapar(texto) {
   const d = document.createElement('div');
