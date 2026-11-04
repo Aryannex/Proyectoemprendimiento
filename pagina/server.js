@@ -2,10 +2,14 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const path = require('path');
+const fs = require('fs');
 require('dotenv').config({ path: path.join(__dirname, '.env') });
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+// carpeta para fotos de los clientes
+fs.mkdirSync(path.join(__dirname, 'uploads'), { recursive: true });
 
 // Middlewares
 app.use(cors());
@@ -14,10 +18,10 @@ app.use(express.urlencoded({ extended: true }));
 
 // Servir archivos estáticos del frontend 
    app.use(express.static(path.join(__dirname, 'public'))); 
+   app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Rutas del API
-const pedidoRoutes = require('./routes/pedidoRoutes'); // revisar 
-app.use('/api/pedidos', pedidoRoutes);
+// Rutas del API 
+app.use('/api/pedidos', require('./routes/pedidoRoutes'));
 
 async function startServer() {
   const mongoUri = process.env.MONGODB_URI;
