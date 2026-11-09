@@ -1,14 +1,5 @@
 import { useState } from 'react'
-
-const PRECIO_ENVIO = 20000
-
-function formatearMoneda(valor) {
-  return new Intl.NumberFormat('es-CO', {
-    style: 'currency',
-    currency: 'COP',
-    maximumFractionDigits: 0
-  }).format(valor)
-}
+import { TAMANOS, PRECIO_ENVIO, formatearMoneda } from '../utils'
 
 const datosIniciales = {
   nombre: '', correo: '', telefono: '', direccion: '', descripcion: ''
@@ -16,11 +7,13 @@ const datosIniciales = {
 
 export default function FormularioPedido() {
   const [datos, setDatos] = useState(datosIniciales)
-  const [tamano, setTamano] = useState('35000')
+  const [tamano, setTamano] = useState('mini')
+  const [foto, setFoto] = useState(null)
   const [preview, setPreview] = useState(null)
   const [fotoKey, setFotoKey] = useState(0)
+  const [enviando, setEnviando] = useState(false)
 
-  const precioLienzo = parseInt(tamano)
+  const precioLienzo = TAMANOS[tamano].precio
   const total = precioLienzo + PRECIO_ENVIO
 
   function cambiar(e) {
@@ -29,40 +22,48 @@ export default function FormularioPedido() {
 
   function cambiarFoto(e) {
     const archivo = e.target.files[0]
+    setFoto(archivo || null)
     setPreview(archivo ? URL.createObjectURL(archivo) : null)
   }
 
   async function enviar(e) {
     e.preventDefault()
+    if (!foto) return alert('Sube una foto.')
 
-    const nuevoPedido = {
-      nombre: datos.nombre,
-      correo: datos.correo,
-      telefono: datos.telefono,
-      direccion: datos.direccion,
-      total: formatearMoneda(total)
-    }
+    // Texto y archivo juntos
+    const formData = new FormData()
+    formData.append('nombre', datos.nombre)
+    formData.append('correo', datos.correo)
+    formData.append('telefono', datos.telefono)
+    formData.append('direccion', datos.direccion)
+    formData.append('descripcion', datos.descripcion)
+    formData.append('tamano', tamano)
+    formData.append('foto', foto)
 
+    setEnviando(true)
     try {
-      const res = await fetch('/api/pedidos', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(nuevoPedido)
-      })
+      const res = await fetch('/api/pedidos', { method: 'POST', body: formData })
       const resultado = await res.json()
 
       if (resultado.success) {
-        alert(`¡Gracias ${datos.nombre}! Tu solicitud ha sido agendada con éxito.`)
+        alert(
+          `¡Gracias ${datos.nombre}! Tu pedido fue agendado.\n\n` +
+          `Tu código de seguimiento es: ${resultado.codigo}\n\n` +
+          `Guárdalo: lo necesitas junto con tu correo para ver el estado de tu pedido.`
+        )
         setDatos(datosIniciales)
-        setTamano('35000')
+        setTamano('mini')
+        setFoto(null)
         setPreview(null)
         setFotoKey(fotoKey + 1) // reinicia el campo de la foto
       } else {
-        alert('Hubo un error al registrar el pedido.')
+        alert(resultado.error || 'Hubo un error al registrar el pedido.')
       }
     } catch (error) {
       console.error(error)
       alert('No se pudo conectar con el servidor.')
+    } finally {
+      setEnviando(false)
     }
   }
 
@@ -96,8 +97,8 @@ export default function FormularioPedido() {
           <fieldset className="grupo-campo">
             <legend>2. Detalles del Lienzo</legend>
 
-            <label htmlFor="foto">Sube tu Foto:</label>
-            <input key={fotoKey} type="file" id="foto" accept="image/*"
+            <label htmlFor="foto">Sube tu Foto (JPG, PNG o WEBP, máx. 5 MB):</label>
+            <input key={fotoKey} type="file" id="foto" accept="image/jpeg,image/png,image/webp"
               onChange={cambiarFoto} required />
 
             <div className="preview-contenedor">
@@ -106,14 +107,15 @@ export default function FormularioPedido() {
 
             <label htmlFor="tamano">Selecciona el Tamaño Estándar:</label>
             <select id="tamano" value={tamano} onChange={(e) => setTamano(e.target.value)} required>
-              <option value="35000">Mini (20 x 30 cm) - $35.000 COP</option>
-              <option value="50000">Pequeño (30 x 40 cm) - $50.000 COP</option>
-              <option value="130000">Mediano (50 x 70 cm) - $130.000 COP</option>
-              <option value="180000">Grande (70 x 100 cm) - $180.000 COP</option>
+              {Object.entries(TAMANOS).map(([clave, t]) => (
+                <option key={clave} value={clave}>
+                  {t.etiqueta} - {formatearMoneda(t.precio)} COP
+                </option>
+              ))}
             </select>
 
             <label htmlFor="descripcion">Descripción de la Pintura (Opcional):</label>
-            <textarea id="descripcion" name="descripcion" rows="4"
+            <textarea id="descripcion" name="descripcion" rows="4" maxLength={500}
               placeholder="Escribe aquí si quieres agregar o cambiar algún detalle en la imagen (colores de fondo, estilo, texto, etc.)"
               value={datos.descripcion} onChange={cambiar}></textarea>
           </fieldset>
@@ -125,7 +127,9 @@ export default function FormularioPedido() {
             <h3>Total a Pagar: <output>{formatearMoneda(total)}</output></h3>
           </div>
 
-          <button type="submit" className="btn-agendar">Agendar Pedido</button>
+          <button type="submit" className="btn-agendar" disabled={enviando}>
+            {enviando ? 'Enviando...' : 'Agendar Pedido'}
+          </button>
         </form>
       </section>
     </main>
