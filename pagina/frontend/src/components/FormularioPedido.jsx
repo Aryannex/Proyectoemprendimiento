@@ -46,11 +46,7 @@ export default function FormularioPedido() {
       const resultado = await res.json()
 
       if (resultado.success) {
-        alert(
-          `¡Gracias ${datos.nombre}! Tu pedido fue agendado.\n\n` +
-          `Tu código de seguimiento es: ${resultado.codigo}\n\n` +
-          `Guárdalo: lo necesitas junto con tu correo para ver el estado de tu pedido.`
-        )
+        alert(`¡Gracias ${datos.nombre}! Tu solicitud ha sido agendada con éxito.`)
         setDatos(datosIniciales)
         setTamano('mini')
         setFoto(null)

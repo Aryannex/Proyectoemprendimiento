@@ -9,7 +9,6 @@ const pedidoSchema = new mongoose.Schema({
   descripcion: { type: String, default: '', trim: true, maxlength: 500 },
   foto:        { type: String, required: true },   //nombre del archivo guardado
   total:       { type: Number, required: true },
-  codigo:      { type: String, required: true },   //codigo de seguimiento
   estado: {
     type: String,
     enum: ['En espera', 'En proceso', 'Entregado'],

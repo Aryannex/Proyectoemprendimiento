@@ -1,6 +1,8 @@
 import { useRef, useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+const JSON_HEADERS = { 'Content-Type': 'application/json' }
+
 export default function LoginModal({ abierto, onCerrar }) {
   const dialogRef = useRef(null)
   const navigate = useNavigate()
@@ -14,29 +16,45 @@ export default function LoginModal({ abierto, onCerrar }) {
     if (!abierto && d.open) d.close()
   }, [abierto])
 
+  async function entrarAdmin() {
+    const res = await fetch('/api/auth/login', {
+      method: 'POST',
+      headers: JSON_HEADERS,
+      body: JSON.stringify({ usuario: usuario.trim(), clave })
+    })
+    const data = await res.json()
+
+    if (res.ok && data.success) {
+      sessionStorage.setItem('tokenAdmin', data.token)
+      navigate('/admin')
+    } else {
+      alert(data.error || 'Credenciales incorrectas.')
+    }
+  }
+
+  async function entrarCliente() {
+    const correo = usuario.trim().toLowerCase()
+
+    const res = await fetch('/api/pedidos/mis-pedidos', {
+      method: 'POST',
+      headers: JSON_HEADERS,
+      body: JSON.stringify({ correo })
+    })
+    const data = await res.json()
+
+    if (res.ok && data.success) {
+      sessionStorage.setItem('correoClienteActual', correo)
+      navigate('/cliente')
+    } else {
+      alert(data.error || 'No encontramos pedidos con este correo.')
+    }
+  }
+
   async function entrar(e) {
     e.preventDefault()
-    const user = usuario.trim().toLowerCase()
-
-    if (user === 'admin') {
-      if (clave.trim() === '954') {
-        sessionStorage.setItem('esAdmin', 'true')
-        navigate('/admin')
-      } else {
-        alert('Contraseña de administrador incorrecta.')
-      }
-      return
-    }
-
     try {
-      const res = await fetch(`/api/pedidos/cliente/${encodeURIComponent(user)}`)
-      const pedidos = await res.json()
-      if (res.ok && pedidos.length > 0) {
-        sessionStorage.setItem('correoClienteActual', user)
-        navigate('/cliente')
-      } else {
-        alert('No encontramos pedidos registrados con este correo.')
-      }
+      if (verAdmin) await entrarAdmin()
+      else await entrarCliente()
     } catch (error) {
       console.error(error)
       alert('Error de conexión con el servidor.')
@@ -50,7 +68,7 @@ export default function LoginModal({ abierto, onCerrar }) {
           type="button"
           className="btn-mono"
           title="Modo Administrador"
-          onClick={() => setVerAdmin(!verAdmin)}
+          onClick={() => { setVerAdmin(!verAdmin); setClave('') }}
         >
           🎀
         </button>
@@ -80,6 +98,7 @@ export default function LoginModal({ abierto, onCerrar }) {
                 onChange={(e) => setClave(e.target.value)}
                 autoComplete="off"
                 autoFocus
+                required
               />
             </div>
           )}

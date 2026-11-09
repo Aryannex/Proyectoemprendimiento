@@ -401,6 +401,7 @@ label {
 input[type="text"],
 input[type="email"],
 input[type="tel"],
+input[type="password"],
 input[type="file"],
 select,
 textarea {
@@ -478,6 +479,10 @@ input:focus, select:focus, textarea:focus {
 
 .btn-agendar:hover {
   background-color: var(--color-primario-hover);
+}
+.btn-agendar:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 /* Footer */

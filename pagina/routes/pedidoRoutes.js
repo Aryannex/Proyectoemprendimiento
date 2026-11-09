@@ -55,14 +55,14 @@ router.post('/', (req, res) => {
         return res.status(400).json({ success: false, error: 'Tamaño no válido.' });
       }
 
-      const pedido = await Pedido.create({
-        nombre, correo, telefono, direccion, tamano, descripcion,
-        foto: req.file.filename,
-        total: PRECIOS[tamano] + PRECIO_ENVIO,
-        codigo: crypto.randomBytes(3).toString('hex').toUpperCase() //se crea un codigo de seguimiento random
-      });
+    
+  await Pedido.create({
+  nombre, correo, telefono, direccion, tamano, descripcion,
+  foto: req.file.filename,
+  total: PRECIOS[tamano] + PRECIO_ENVIO
+});
 
-      res.status(201).json({ success: true, codigo: pedido.codigo });
+res.status(201).json({ success: true });
     } catch (e) {
       borrarFoto();
       res.status(400).json({ success: false, error: e.message });
@@ -70,22 +70,23 @@ router.post('/', (req, res) => {
   });
 });
 
-// Seguimiento del cliente, con correo y codigo de seguimiento
-router.post('/seguimiento', limitarConsultas, async (req, res) => {
+// Clientes; ven sus pedidos por el correo, pero sin los datos sensibles
+router.post('/mis-pedidos', limitarConsultas, async (req, res) => {
   try {
     const correo = String(req.body.correo || '').trim().toLowerCase();
-    const codigo = String(req.body.codigo || '').trim().toUpperCase();
 
-    const pedido = await Pedido.findOne({ correo, codigo }).select('-foto');
-    if (!pedido) {
-      return res.status(404).json({ success: false, error: 'No encontramos un pedido con esos datos.' });
+    const pedidos = await Pedido.find({ correo })
+      .select('tamano total estado createdAt') 
+      .sort({ createdAt: -1 });
+
+    if (pedidos.length === 0) {
+      return res.status(404).json({ success: false, error: 'No encontramos pedidos con este correo.' });
     }
-    res.json({ success: true, pedido });
+    res.json({ success: true, pedidos });
   } catch (e) {
     res.status(500).json({ success: false, error: 'Error del servidor.' });
   }
 });
-
 // admin
 router.get('/', verificarAdmin, async (req, res) => {
   try {
