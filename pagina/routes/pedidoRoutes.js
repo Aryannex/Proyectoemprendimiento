@@ -23,7 +23,7 @@ const upload = multer({
     filename: (req, file, cb) =>
       cb(null, crypto.randomBytes(16).toString('hex') + EXTENSIONES[file.mimetype])
   }),
-  limits: { fileSize: 5 * 1024 * 1024 }, // 5 MB
+  limits: { fileSize: 5 * 1024 * 1024 }, 
   fileFilter: (req, file, cb) =>
     EXTENSIONES[file.mimetype]
       ? cb(null, true)
