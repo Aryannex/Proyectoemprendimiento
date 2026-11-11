@@ -5,13 +5,18 @@ const datosIniciales = {
   nombre: '', correo: '', telefono: '', direccion: '', descripcion: ''
 }
 
-export default function FormularioPedido() {
+export default function FormularioPedido({idea}) {
   const [datos, setDatos] = useState(datosIniciales)
   const [tamano, setTamano] = useState('mini')
   const [foto, setFoto] = useState(null)
   const [preview, setPreview] = useState(null)
   const [fotoKey, setFotoKey] = useState(0)
   const [enviando, setEnviando] = useState(false)
+
+  if (idea && idea !== ultimaIdea) {
+    setUltimaIdea(idea)
+    setDatos({ ...datos, descripcion: idea.texto })
+  }
 
   const precioLienzo = TAMANOS[tamano].precio
   const total = precioLienzo + PRECIO_ENVIO
