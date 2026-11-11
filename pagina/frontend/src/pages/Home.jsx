@@ -4,15 +4,10 @@ import FormularioPedido from '../components/FormularioPedido'
 import Footer from '../components/Footer'
 import ChatAsistente from '../components/ChatAsistente'
 
-export default function FormularioPedido({ idea }) {
+export default function Home() {
   const [loginAbierto, setLoginAbierto] = useState(false)
   const [idea, setIdea] = useState(null)
-  const [ultimaIdea, setUltimaIdea] = useState(null)
 
-if (idea && idea !== ultimaIdea) {
-  setUltimaIdea(idea)
-  setDatos({ ...datos, descripcion: idea.texto })
-}
 
 function usarIdea(texto) {
   setIdea({ texto }) 
