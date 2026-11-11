@@ -23,6 +23,7 @@ app.use(express.urlencoded({ extended: true }));
 // Rutas del API 
 app.use('/api/pedidos', require('./routes/pedidoRoutes'));
 app.use('/api/auth', require('./routes/authRoutes'));
+app.use('/api/chat', require('./routes/chatRoutes'));
 
 async function startServer() {
   const mongoUri = process.env.MONGODB_URI;
