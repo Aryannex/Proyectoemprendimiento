@@ -59,7 +59,7 @@ router.post('/', limitarChat, async (req, res) => {
       return res.status(500).json({ success: false, error: 'El chat no está configurado.' });
     }
 
-    const modelo = process.env.GEMINI_MODEL || 'gemini-2.5-flash';
+    const modelo = process.env.GEMINI_MODEL || 'gemini-3.8-flash';
     const url = `https://generativelanguage.googleapis.com/v1beta/models/${modelo}:generateContent`;
 
     const respuesta = await fetch(url, {
