@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "dev": "concurrently -n backend,frontend -c blue,green \"npm start\" \"npm run dev --prefix frontend\""
   },
   "keywords": [],
   "author": "",
@@ -18,5 +19,9 @@
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.11.4",
     "multer": "^2.5.0"
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.7"
   }
 }
+
