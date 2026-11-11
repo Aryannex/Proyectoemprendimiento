@@ -2,9 +2,22 @@ import { useState } from 'react'
 import LoginModal from '../components/LoginModal'
 import FormularioPedido from '../components/FormularioPedido'
 import Footer from '../components/Footer'
+import ChatAsistente from '../components/ChatAsistente'
 
-export default function Home() {
+export default function FormularioPedido({ idea }) {
   const [loginAbierto, setLoginAbierto] = useState(false)
+  const [idea, setIdea] = useState(null)
+  const [ultimaIdea, setUltimaIdea] = useState(null)
+
+if (idea && idea !== ultimaIdea) {
+  setUltimaIdea(idea)
+  setDatos({ ...datos, descripcion: idea.texto })
+}
+
+function usarIdea(texto) {
+  setIdea({ texto }) 
+  document.getElementById('formulario-solicitud')?.scrollIntoView({ behavior: 'smooth' })
+}
 
   return (
     <>
@@ -59,7 +72,8 @@ export default function Home() {
         </div>
       </section>
 
-      <FormularioPedido />
+      <FormularioPedido idea={idea} />
+      <ChatAsistente onUsarIdea={usarIdea} />
       <Footer />
     </>
   )
