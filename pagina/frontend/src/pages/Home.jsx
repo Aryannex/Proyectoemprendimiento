@@ -34,9 +34,16 @@ function usarIdea(texto) {
           <p>Convertimos tus fotos favoritas que transmiten sentimientos en impresionantes lienzos pintados y enmarcados.</p>
 
           <div className="hero-actions">
-            <a href="#formulario-solicitud" className="btn-principal">Agenda el tuyo</a>
-
-            <aside className="contacto-rapido">
+            <a href="#formulario-solicitud"
+            className="btn-principal"
+            onClick={(e) => {
+              e.preventDefault()
+              document.getElementById('formulario-solicitud')?.scrollIntoView({ behavior: 'smooth' })
+            }}
+          >
+            Agenda el tuyo
+          </a>
+          <aside className="contacto-rapido">
               <h3>Contacto Directo</h3>
               <p><strong>Atención:</strong> Nahiomy Cafroni Pacheco</p>
               <p><strong>Correo:</strong> info@momentoseternos.com</p>
