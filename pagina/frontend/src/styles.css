@@ -645,6 +645,28 @@ input:focus, select:focus, textarea:focus {
   font-size: 0.85rem;
 }
 
+/* Celulares y pantallas pequeñas */
+@media (max-width: 600px) {
+  .navbar { padding: 12px 5%; }
+  .logo h1 { font-size: 1.1rem; }
+  .btn-hero { padding: 8px 12px; font-size: 0.9rem; }
+
+  .hero-section { padding: 30px 5%; }
+  .hero-content h2 { font-size: 1.6rem; }
+  .contacto-rapido { min-width: 0; width: 100%; }
+
+  .galeria-section { padding: 40px 5%; }
+
+  .seccion-formulario { padding: 30px 5%; }
+  .formulario { padding: 20px; }
+
+  .chat-panel {
+    right: 10px;
+    bottom: 10px;
+    width: calc(100vw - 20px);
+  }
+}
+
 /* Footer */
 .footer {
   text-align: center;
