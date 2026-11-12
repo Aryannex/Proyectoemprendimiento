@@ -7,8 +7,8 @@ const pedidoSchema = new mongoose.Schema({
   direccion:   { type: String, required: true, trim: true },
   tamano:      { type: String, required: true, enum: ['mini', 'pequeno', 'mediano', 'grande'] },
   descripcion: { type: String, default: '', trim: true, maxlength: 500 },
-  foto:        { type: String, required: true },   //nombre del archivo guardado
-  total:       { type: Number, required: true },
+  fotoData:    { type: Buffer, required: true, select: false },
+  fotoTipo:    { type: String, required: true },
   estado: {
     type: String,
     enum: ['En espera', 'En proceso', 'Entregado'],
