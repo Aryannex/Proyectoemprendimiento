@@ -53,15 +53,15 @@ function usarIdea(texto) {
 
         <div className="galeria-grid">
           <article className="tarjeta-arte">
-            <img src="/imagenes/still-life-painting-oil-painting-tropical-flowers-thumb900.jpg" alt="Muestra de cuadro de flores al óleo" />
+            <img src={'${import.meta.env.BASE_URL}/imagenes/still-life-painting-oil-painting-tropical-flowers-thumb900.jpg'} alt="Muestra de cuadro de flores al óleo" />
             <h3>~ Lienzo Floral al Óleo ~</h3>
           </article>
           <article className="tarjeta-arte">
-            <img src="/imagenes/Retrato-de-una-pareja-en-la-playa-1.jpg" alt="Muestra de retrato minimalista" />
+            <img src={'${import.meta.env.BASE_URL}/imagenes/Retrato-de-una-pareja-en-la-playa-1.jpg'} alt="Muestra de retrato minimalista" />
             <h3>~ Retrato de Pareja ~</h3>
           </article>
           <article className="tarjeta-arte">
-            <img src="/imagenes/venecia.jpg" alt="Muestra de arte de paisaje urbano" />
+            <img src={'${import.meta.env.BASE_URL}/imagenes/venecia.jpg'} alt="Muestra de arte de paisaje urbano" />
             <h3>~ Paisaje urbano ~</h3>
           </article>
         </div>
