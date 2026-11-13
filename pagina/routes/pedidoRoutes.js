@@ -33,7 +33,7 @@ const limitarConsultas = rateLimit({
   message: { success: false, error: 'Demasiados intentos. Intenta de nuevo en 15 minutos.' }
 });
 
-// crear pedido con us respectiva foto
+// crear pedido con su respectiva foto
 router.post('/', (req, res) => {
   upload.single('foto')(req, res, async (error) => {
     if (error) {
