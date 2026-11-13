@@ -1,82 +1,85 @@
 const express = require('express');
 const multer = require('multer');
-const crypto = require('crypto');
-const path = require('path');
-const fs = require('fs');
 const rateLimit = require('express-rate-limit');
 const Pedido = require('../models/Pedido');
 const verificarAdmin = require('../middleware/verificarAdmin');
 
 const router = express.Router();
 
-// Los precios quedan en el servidor, no pueden ser modificados en la web
+// Los precios viven en el SERVIDOR: el navegador no puede cambiarlos
 const PRECIOS = { mini: 35000, pequeno: 50000, mediano: 130000, grande: 180000 };
 const PRECIO_ENVIO = 20000;
 
-// tipo de archivo permitido en imagenes
-const EXTENSIONES = { 'image/jpeg': '.jpg', 'image/png': '.png', 'image/webp': '.webp' };
-
+// La foto se recibe en memoria, máximo 4 MB.
 const upload = multer({
-  storage: multer.diskStorage({
-    destination: path.join(__dirname, '..', 'uploads'),
-    // genera un nombre random para la foto, tipo una ID
-    filename: (req, file, cb) =>
-      cb(null, crypto.randomBytes(16).toString('hex') + EXTENSIONES[file.mimetype])
-  }),
-  limits: { fileSize: 5 * 1024 * 1024 }, 
-  fileFilter: (req, file, cb) =>
-    EXTENSIONES[file.mimetype]
-      ? cb(null, true)
-      : cb(new Error('Solo se permiten imágenes JPG, PNG o WEBP.'))
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 4 * 1024 * 1024 }
 });
 
+// confirmacion de si es una imagen o no
+function detectarTipo(b) {
+  if (b.length > 12) {
+    if (b[0] === 0xFF && b[1] === 0xD8 && b[2] === 0xFF) return 'image/jpeg';
+    if (b[0] === 0x89 && b[1] === 0x50 && b[2] === 0x4E && b[3] === 0x47) return 'image/png';
+    if (b.toString('ascii', 0, 4) === 'RIFF' && b.toString('ascii', 8, 12) === 'WEBP') return 'image/webp';
+  }
+  return null;
+}
+
+// consultas de clientes, limite de 20 cada 15 min
 const limitarConsultas = rateLimit({
   windowMs: 15 * 60 * 1000,
   limit: 20,
   message: { success: false, error: 'Demasiados intentos. Intenta de nuevo en 15 minutos.' }
 });
 
-// Crear pedido 
+// crear pedido con us respectiva foto
 router.post('/', (req, res) => {
   upload.single('foto')(req, res, async (error) => {
-    if (error) return res.status(400).json({ success: false, error: error.message });
-
-    const borrarFoto = () => req.file && fs.unlink(req.file.path, () => {});
+    if (error) {
+      const mensaje = error.code === 'LIMIT_FILE_SIZE'
+        ? 'La foto pesa más de 4 MB. Elige una más liviana.'
+        : error.message;
+      return res.status(400).json({ success: false, error: mensaje });
+    }
 
     try {
       if (!req.file) {
         return res.status(400).json({ success: false, error: 'Falta la foto.' });
       }
 
+      const tipo = detectarTipo(req.file.buffer);
+      if (!tipo) {
+        return res.status(400).json({ success: false, error: 'La foto debe ser JPG, PNG o WEBP.' });
+      }
+
       const { nombre, correo, telefono, direccion, tamano, descripcion } = req.body;
 
       if (!Object.hasOwn(PRECIOS, tamano)) {
-        borrarFoto();
         return res.status(400).json({ success: false, error: 'Tamaño no válido.' });
       }
 
-    
-  await Pedido.create({
-  nombre, correo, telefono, direccion, tamano, descripcion,
-  foto: req.file.filename,
-  total: PRECIOS[tamano] + PRECIO_ENVIO
-});
+      await Pedido.create({
+        nombre, correo, telefono, direccion, tamano, descripcion,
+        fotoData: req.file.buffer,
+        fotoTipo: tipo,
+        total: PRECIOS[tamano] + PRECIO_ENVIO
+      });
 
-res.status(201).json({ success: true });
+      res.status(201).json({ success: true });
     } catch (e) {
-      borrarFoto();
       res.status(400).json({ success: false, error: e.message });
     }
   });
 });
 
-// Clientes; ven sus pedidos por el correo, pero sin los datos sensibles
+// los clientes ven sus pedidos con el correo, sin datos sensibles
 router.post('/mis-pedidos', limitarConsultas, async (req, res) => {
   try {
     const correo = String(req.body.correo || '').trim().toLowerCase();
 
     const pedidos = await Pedido.find({ correo })
-      .select('tamano total estado createdAt') 
+      .select('tamano total estado createdAt')
       .sort({ createdAt: -1 });
 
     if (pedidos.length === 0) {
@@ -87,12 +90,28 @@ router.post('/mis-pedidos', limitarConsultas, async (req, res) => {
     res.status(500).json({ success: false, error: 'Error del servidor.' });
   }
 });
-// admin
+
+// administrado
 router.get('/', verificarAdmin, async (req, res) => {
   try {
     res.json(await Pedido.find().sort({ createdAt: -1 }));
   } catch (e) {
     res.status(500).json({ success: false, error: e.message });
+  }
+});
+
+// Foto de un pedido
+router.get('/:id/foto', verificarAdmin, async (req, res) => {
+  try {
+    const pedido = await Pedido.findById(req.params.id).select('+fotoData fotoTipo');
+    if (!pedido || !pedido.fotoData) {
+      return res.status(404).json({ success: false, error: 'Sin foto.' });
+    }
+    res.set('Content-Type', pedido.fotoTipo);
+    res.set('X-Content-Type-Options', 'nosniff');
+    res.send(pedido.fotoData);
+  } catch (e) {
+    res.status(400).json({ success: false, error: 'Pedido no válido.' });
   }
 });
 
