@@ -1,23 +1,24 @@
 {
-  "$schema": "https://openapi.vercel.sh/vercel.json",
-  "services": {
-    "pagina": {
-      "root": ".",
-      "framework": "express"
+  "version": 2,
+  "builds": [
+    { 
+      "src": "server.js", 
+      "use": "@vercel/node" 
     },
-    "frontend": {
-      "root": "pagina/frontend",
-      "framework": "vite"
+    { 
+      "src": "frontend/package.json", 
+      "use": "@vercel/static-build", 
+      "config": { "distDir": "dist" } 
     }
-  },
-  "rewrites": [
-    {
-      "source": "/api/(.*)",
-      "destination": { "service": "pagina" }
+  ],
+  "routes": [
+    { 
+      "src": "/api/(.*)", 
+      "dest": "server.js" 
     },
-    {
-      "source": "/(.*)",
-      "destination": { "service": "frontend" }
+    { 
+      "src": "/(.*)", 
+      "dest": "frontend/$1" 
     }
   ]
 }
