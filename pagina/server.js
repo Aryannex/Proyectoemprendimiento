@@ -9,7 +9,11 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // carpeta para fotos de los clientes
-fs.mkdirSync(path.join(__dirname, 'uploads'), { recursive: true });
+try {
+  fs.mkdirSync(path.join(__dirname, 'uploads'), { recursive: true });
+} catch (error) {
+  console.log('Aviso: No se pudo crear la carpeta uploads (esto es normal en Vercel).');
+}
 
 // Middlewares
 app.use(cors());
@@ -25,21 +29,20 @@ app.use('/api/pedidos', require('./routes/pedidoRoutes'));
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/chat', require('./routes/chatRoutes'));
 
-async function startServer() {
-  const mongoUri = process.env.MONGODB_URI;
-  if (!mongoUri) {
-    throw new Error('No se encontró MONGODB_URI en el archivo .env');
-  }
+const mongoUri = process.env.MONGODB_URI;
 
-  await mongoose.connect(mongoUri, { serverSelectionTimeoutMS: 10000 });
-  console.log('Conectado exitosamente a MongoDB Atlas');
+if (mongoUri) {
+  mongoose.connect(mongoUri, { serverSelectionTimeoutMS: 10000 })
+    .then(() => console.log('Conectado exitosamente a MongoDB Atlas'))
+    .catch(error => console.error('Error conectando a MongoDB:', error.message));
+} else {
+  console.error('ERROR: No se encontró MONGODB_URI en las variables de entorno.');
+}
 
+if (process.env.NODE_ENV !== 'production') {
   app.listen(PORT, () => {
     console.log(`Servidor corriendo en http://localhost:${PORT}`);
   });
 }
 
-startServer().catch(error => {
-  console.error('No se pudo iniciar el servidor:', error.message);
-  process.exit(1);
-});
+module.exports = app;
