@@ -59,29 +59,50 @@ router.post('/', limitarChat, async (req, res) => {
       return res.status(500).json({ success: false, error: 'El chat no está configurado.' });
     }
 
-    const modelo = process.env.GEMINI_MODEL || 'gemini-3.8-flash';
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/${modelo}:generateContent`;
+     
+    const modelos = [
+      process.env.GEMINI_MODEL || 'gemini-3.8-flash',
+      process.env.GEMINI_MODEL_RESPALDO
+    ].filter(Boolean);
 
-    const respuesta = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-goog-api-key': process.env.GEMINI_API_KEY
-      },
-      body: JSON.stringify({
-        systemInstruction: { parts: [{ text: MODOS[modo] }] },
-        contents: mensajes.map(m => ({
-          role: m.rol === 'assistant' ? 'model' : 'user',
-          parts: [{ text: m.texto }]
-        })),
-        generationConfig: { temperature: 0.7, maxOutputTokens: 600 }
-      }),
-      signal: AbortSignal.timeout(20000)
+    const cuerpo = JSON.stringify({
+      systemInstruction: { parts: [{ text: MODOS[modo] }] },
+      contents: mensajes.map(m => ({
+        role: m.rol === 'assistant' ? 'model' : 'user',
+        parts: [{ text: m.texto }]
+      })),
+      generationConfig: { temperature: 0.7, maxOutputTokens: 600 }
     });
+
+    function llamarGemini(nombreModelo) {
+      return fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/${nombreModelo}:generateContent`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-goog-api-key': process.env.GEMINI_API_KEY
+          },
+          body: cuerpo,
+          signal: AbortSignal.timeout(8000)
+        }
+      );
+    }
+
+    // Hasta 2 intentos por modelo si Google está saturado (429, 500 o 503)
+    let respuesta;
+    for (const nombreModelo of modelos) {
+      for (let intento = 0; intento < 2; intento++) {
+        respuesta = await llamarGemini(nombreModelo);
+        if (respuesta.ok || ![429, 500, 503].includes(respuesta.status)) break;
+        await new Promise(r => setTimeout(r, 1500));
+      }
+      if (respuesta.ok) break;
+    }
 
     if (!respuesta.ok) {
       console.error('Error de Gemini:', respuesta.status, await respuesta.text());
-      const aviso = respuesta.status === 429
+      const aviso = [429, 503].includes(respuesta.status)
         ? 'El asistente está muy ocupado. Intenta de nuevo en un minuto.'
         : 'El asistente no está disponible en este momento.';
       return res.status(502).json({ success: false, error: aviso });
