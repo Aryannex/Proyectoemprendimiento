@@ -106,7 +106,7 @@ export default function FormularioPedido({idea}) {
           <fieldset className="grupo-campo">
             <legend>2. Detalles del Lienzo</legend>
 
-            <label htmlFor="foto">Sube tu Foto (JPG, PNG o WEBP, máx. 5 MB):</label>
+            <label htmlFor="foto">Sube tu Foto (JPG, PNG o WEBP, máx. 4 MB):</label>
             <input key={fotoKey} type="file" id="foto" accept="image/jpeg,image/png,image/webp"
               onChange={cambiarFoto} required />
 
