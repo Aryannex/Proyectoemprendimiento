@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { TAMANOS, PRECIO_ENVIO, formatearMoneda } from '../utils'
 
 const datosIniciales = {
@@ -12,11 +12,18 @@ export default function FormularioPedido({idea}) {
   const [preview, setPreview] = useState(null)
   const [fotoKey, setFotoKey] = useState(0)
   const [enviando, setEnviando] = useState(false)
+  
+  useEffect(() => {
+    if (idea) {
+      setDatos(prevDatos => ({ ...prevDatos, descripcion: idea.texto }))
+    }
+  }, [idea])
 
-  if (idea && idea !== ultimaIdea) {
-    setUltimaIdea(idea)
-    setDatos({ ...datos, descripcion: idea.texto })
-  }
+  useEffect(() => {
+    return () => {
+      if (preview) URL.revokeObjectURL(preview)
+    }
+  }, [preview])
 
   const precioLienzo = TAMANOS[tamano].precio
   const total = precioLienzo + PRECIO_ENVIO
