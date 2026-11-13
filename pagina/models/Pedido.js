@@ -9,6 +9,7 @@ const pedidoSchema = new mongoose.Schema({
   descripcion: { type: String, default: '', trim: true, maxlength: 500 },
   fotoData:    { type: Buffer, required: true, select: false },
   fotoTipo:    { type: String, required: true },
+  total:       { type: Number, required: true },
   estado: {
     type: String,
     enum: ['En espera', 'En proceso', 'Entregado'],
