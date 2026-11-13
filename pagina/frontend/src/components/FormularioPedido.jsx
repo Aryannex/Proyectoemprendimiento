@@ -26,11 +26,19 @@ export default function FormularioPedido({idea}) {
   }
 
   function cambiarFoto(e) {
-    const archivo = e.target.files[0]
-    setFoto(archivo || null)
-    setPreview(archivo ? URL.createObjectURL(archivo) : null)
+  const archivo = e.target.files[0]
+
+  if (archivo && archivo.size > 4 * 1024 * 1024) {
+    alert('La foto pesa más de 4 MB. Elige una más liviana.')
+    e.target.value = ''
+    setFoto(null)
+    setPreview(null)
+    return
   }
 
+  setFoto(archivo || null)
+  setPreview(archivo ? URL.createObjectURL(archivo) : null)
+}
   async function enviar(e) {
     e.preventDefault()
     if (!foto) return alert('Sube una foto.')
