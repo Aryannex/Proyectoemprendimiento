@@ -12,6 +12,10 @@
   },
   "rewrites": [
     {
+      "source": "/api/(.*)",
+      "destination": { "service": "pagina" }
+    },
+    {
       "source": "/(.*)",
       "destination": { "service": "frontend" }
     }
