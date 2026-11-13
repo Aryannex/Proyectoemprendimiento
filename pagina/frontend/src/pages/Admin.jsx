@@ -12,6 +12,35 @@ function cabeceras() {
 
 function TarjetaPedido({ pedido, onCambiarEstado }) {
   const [abierto, setAbierto] = useState(false)
+  const [fotoUrl, setFotoUrl] = useState(null)
+  const [fotoError, setFotoError] = useState(false)
+
+  // Pide la foto al servidor, solo admin, cuando se abre la tarjeta
+  useEffect(() => {
+    if (!abierto || fotoUrl || fotoError) return
+    let cancelado = false
+
+    fetch(`/api/pedidos/${pedido._id}/foto`, {
+      headers: { Authorization: `Bearer ${sessionStorage.getItem('tokenAdmin')}` }
+    })
+      .then(res => {
+        if (!res.ok) throw new Error()
+        return res.blob()
+      })
+      .then(blob => {
+        if (!cancelado) setFotoUrl(URL.createObjectURL(blob))
+      })
+      .catch(() => {
+        if (!cancelado) setFotoError(true)
+      })
+
+    return () => { cancelado = true }
+  }, [abierto, pedido._id, fotoUrl, fotoError])
+
+  // Libera la memoria de la foto al cerrar o cambiar
+  useEffect(() => {
+    return () => { if (fotoUrl) URL.revokeObjectURL(fotoUrl) }
+  }, [fotoUrl])
 
   return (
     <article className="tarjeta-pedido">
@@ -31,10 +60,15 @@ function TarjetaPedido({ pedido, onCambiarEstado }) {
         <p><strong>Tamaño:</strong> {TAMANOS[pedido.tamano]?.etiqueta || pedido.tamano}</p>
         <p><strong>Total:</strong> {formatearMoneda(pedido.total)}</p>
         <p><strong>Descripción:</strong> {pedido.descripcion || 'Sin descripción'}</p>
-        <a href={`/uploads/${pedido.foto}`} target="_blank" rel="noreferrer">
-          <img src={`/uploads/${pedido.foto}`} alt={`Foto de ${pedido.nombre}`}
-            style={{ maxWidth: 200, borderRadius: 8, marginTop: 6 }} />
-        </a>
+
+        {fotoUrl && (
+          <a href={fotoUrl} target="_blank" rel="noreferrer">
+            <img src={fotoUrl} alt={`Foto de ${pedido.nombre}`}
+              style={{ maxWidth: 200, borderRadius: 8, marginTop: 6 }} />
+          </a>
+        )}
+        {!fotoUrl && !fotoError && <p>Cargando foto...</p>}
+        {fotoError && <p>No se pudo cargar la foto.</p>}
       </div>
 
       <div style={{ marginTop: 15 }}>
