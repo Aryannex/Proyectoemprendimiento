@@ -60,11 +60,13 @@ router.post('/', limitarChat, async (req, res) => {
     }
 
      
-    const modelos = [
-      process.env.GEMINI_MODEL || 'gemini-3.8-flash lite',
+       const modelos = [
+      process.env.GEMINI_MODEL || 'gemini-3.8-flash',
       process.env.GEMINI_MODEL_RESPALDO
-    ].filter(Boolean);
-
+    ]
+      .map(m => (m || '').trim().replace(/^models\//, ''))
+      .filter(Boolean);
+      
     const cuerpo = JSON.stringify({
       systemInstruction: { parts: [{ text: MODOS[modo] }] },
       contents: mensajes.map(m => ({
