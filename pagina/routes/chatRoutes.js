@@ -84,7 +84,7 @@ router.post('/', limitarChat, async (req, res) => {
             'x-goog-api-key': process.env.GEMINI_API_KEY
           },
           body: cuerpo,
-          signal: AbortSignal.timeout(8000)
+          signal: AbortSignal.timeout(15000)
         }
       );
     }
@@ -116,8 +116,11 @@ router.post('/', limitarChat, async (req, res) => {
     }
 
     res.json({ success: true, respuesta: texto });
-  } catch (e) {
-    console.error('Error en /api/chat:', e.message);
+    } catch (e) {
+    console.error('Error en /api/chat:', e.name, e.message);
+    if (e.name === 'TimeoutError' || e.name === 'AbortError') {
+      return res.status(504).json({ success: false, error: 'El asistente tardó demasiado. Intenta de nuevo.' });
+    }
     res.status(500).json({ success: false, error: 'Error del servidor.' });
   }
 });
