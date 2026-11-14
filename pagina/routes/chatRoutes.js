@@ -60,13 +60,16 @@ router.post('/', limitarChat, async (req, res) => {
     }
 
      
-       const modelos = [
+     const modelos = [
       process.env.GEMINI_MODEL || 'gemini-3.8-flash',
       process.env.GEMINI_MODEL_RESPALDO
     ]
       .map(m => (m || '').trim().replace(/^models\//, ''))
-      .filter(Boolean);
+      .filter(m => /^[a-z0-9][a-z0-9.-]*$/i.test(m));
 
+    if (modelos.length === 0) {
+      return res.status(500).json({ success: false, error: 'El chat no está configurado.' });
+    }
     const cuerpo = JSON.stringify({
       systemInstruction: { parts: [{ text: MODOS[modo] }] },
       contents: mensajes.map(m => ({
@@ -107,11 +110,7 @@ router.post('/', limitarChat, async (req, res) => {
       const aviso = [429, 503].includes(respuesta.status)
         ? 'El asistente está muy ocupado. Intenta de nuevo en un minuto.'
         : 'El asistente no está disponible en este momento.';
-      // TEMPORAL: muestra qué modelos está usando el servidor (borrar después)
-      return res.status(502).json({
-        success: false,
-        error: `${aviso} [DEBUG ${respuesta.status} modelos=${JSON.stringify(modelos)}]`
-      });
+     return res.status(502).json({ success: false, error: aviso });
     }
 
     const data = await respuesta.json();
