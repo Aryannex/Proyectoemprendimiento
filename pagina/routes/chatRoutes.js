@@ -61,7 +61,7 @@ router.post('/', limitarChat, async (req, res) => {
 
      
     const modelos = [
-      process.env.GEMINI_MODEL || 'gemini-3.8-flash',
+      process.env.GEMINI_MODEL || 'gemini-3.8-flash lite',
       process.env.GEMINI_MODEL_RESPALDO
     ].filter(Boolean);
 
