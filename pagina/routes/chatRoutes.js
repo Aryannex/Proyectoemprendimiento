@@ -60,7 +60,7 @@ router.post('/', limitarChat, async (req, res) => {
     }
 
      
-     const modelos = [
+        const modelos = [
       process.env.GEMINI_MODEL || 'gemini-3.8-flash',
       process.env.GEMINI_MODEL_RESPALDO
     ]
@@ -70,14 +70,23 @@ router.post('/', limitarChat, async (req, res) => {
     if (modelos.length === 0) {
       return res.status(500).json({ success: false, error: 'El chat no está configurado.' });
     }
-    const cuerpo = JSON.stringify({
-      systemInstruction: { parts: [{ text: MODOS[modo] }] },
-      contents: mensajes.map(m => ({
-        role: m.rol === 'assistant' ? 'model' : 'user',
-        parts: [{ text: m.texto }]
-      })),
-      generationConfig: { temperature: 0.7, maxOutputTokens: 1200 }
-    });
+
+    function construirCuerpo(nombreModelo) {
+      const generationConfig = { maxOutputTokens: 1200 };
+
+      if (nombreModelo.startsWith('gemini-3')) {
+        generationConfig.thinkingConfig = { thinkingLevel: 'low' };
+      }
+
+      return JSON.stringify({
+        systemInstruction: { parts: [{ text: MODOS[modo] }] },
+        contents: mensajes.map(m => ({
+          role: m.rol === 'assistant' ? 'model' : 'user',
+          parts: [{ text: m.texto }]
+        })),
+        generationConfig
+      });
+    }
 
     function llamarGemini(nombreModelo) {
       return fetch(
@@ -88,13 +97,13 @@ router.post('/', limitarChat, async (req, res) => {
             'Content-Type': 'application/json',
             'x-goog-api-key': process.env.GEMINI_API_KEY
           },
-          body: cuerpo,
-          signal: AbortSignal.timeout(15000)
+          body: construirCuerpo(nombreModelo),
+          signal: AbortSignal.timeout(20000)
         }
       );
     }
 
-    // Hasta 2 intentos por modelo si Google está saturado (429, 500 o 503)
+    // dos intentos si esta saturado 
     let respuesta;
     for (const nombreModelo of modelos) {
       for (let intento = 0; intento < 2; intento++) {
