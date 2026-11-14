@@ -66,7 +66,7 @@ router.post('/', limitarChat, async (req, res) => {
     ]
       .map(m => (m || '').trim().replace(/^models\//, ''))
       .filter(Boolean);
-      
+
     const cuerpo = JSON.stringify({
       systemInstruction: { parts: [{ text: MODOS[modo] }] },
       contents: mensajes.map(m => ({
@@ -102,12 +102,16 @@ router.post('/', limitarChat, async (req, res) => {
       if (respuesta.ok) break;
     }
 
-    if (!respuesta.ok) {
+       if (!respuesta.ok) {
       console.error('Error de Gemini:', respuesta.status, await respuesta.text());
       const aviso = [429, 503].includes(respuesta.status)
         ? 'El asistente está muy ocupado. Intenta de nuevo en un minuto.'
         : 'El asistente no está disponible en este momento.';
-      return res.status(502).json({ success: false, error: aviso });
+      // TEMPORAL: muestra qué modelos está usando el servidor (borrar después)
+      return res.status(502).json({
+        success: false,
+        error: `${aviso} [DEBUG ${respuesta.status} modelos=${JSON.stringify(modelos)}]`
+      });
     }
 
     const data = await respuesta.json();
