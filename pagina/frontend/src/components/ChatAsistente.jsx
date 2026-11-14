@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react'
 
 const MODOS = {
   recomendador: {
-    titulo: 'Recomiéndame un tamaño!',
+    titulo: '¡Recomiéndame un tamaño!',
     saludo: '¡Hola! Te ayudo a elegir el tamaño ideal. ¿Para qué es el cuadro: un regalo, decoración o un recuerdo?'
   },
   creativo: {
