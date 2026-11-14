@@ -71,7 +71,7 @@ router.post('/', limitarChat, async (req, res) => {
         role: m.rol === 'assistant' ? 'model' : 'user',
         parts: [{ text: m.texto }]
       })),
-      generationConfig: { temperature: 0.7, maxOutputTokens: 600 }
+      generationConfig: { temperature: 0.7, maxOutputTokens: 1200 }
     });
 
     function llamarGemini(nombreModelo) {
@@ -112,6 +112,7 @@ router.post('/', limitarChat, async (req, res) => {
     const texto = data.candidates?.[0]?.content?.parts?.map(p => p.text).join('').trim();
 
     if (!texto) {
+      console.error('Respuesta vacía de Gemini:', JSON.stringify(data).slice(0, 600));
       return res.status(502).json({ success: false, error: 'No pude generar una respuesta. Intenta de nuevo.' });
     }
 
